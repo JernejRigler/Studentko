@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\jerne\\Desktop\\Studentko\\Studentko\\Studentko.csproj": {}
+    "C:\\Faksliteratura\\2_letnik\\1_semester\\IS\\projekt\\Studentko.csproj": {}
   },
   "projects": {
-    "C:\\Users\\jerne\\Desktop\\Studentko\\Studentko\\Studentko.csproj": {
+    "C:\\Faksliteratura\\2_letnik\\1_semester\\IS\\projekt\\Studentko.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jerne\\Desktop\\Studentko\\Studentko\\Studentko.csproj",
+        "projectUniqueName": "C:\\Faksliteratura\\2_letnik\\1_semester\\IS\\projekt\\Studentko.csproj",
         "projectName": "Studentko",
-        "projectPath": "C:\\Users\\jerne\\Desktop\\Studentko\\Studentko\\Studentko.csproj",
-        "packagesPath": "C:\\Users\\jerne\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jerne\\Desktop\\Studentko\\Studentko\\obj\\",
+        "projectPath": "C:\\Faksliteratura\\2_letnik\\1_semester\\IS\\projekt\\Studentko.csproj",
+        "packagesPath": "C:\\Users\\kromp\\.nuget\\packages\\",
+        "outputPath": "C:\\Faksliteratura\\2_letnik\\1_semester\\IS\\projekt\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\jerne\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\kromp\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
