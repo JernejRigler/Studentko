@@ -20,3 +20,20 @@ html {
 body {
   margin-bottom: 60px;
 }
+.loginform input {
+  width: 200px;               
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.loginform label{
+  width: 100px;
+  margin-right: 10px;
+  font-weight: bold;
+}
+.loginform {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
