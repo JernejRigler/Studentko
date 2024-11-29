@@ -8,6 +8,7 @@ namespace Studentko.Models
         //tip računa, ki ga bo imel student (ali je admin ali je navadni uporabnik)
         public required string Account_type {get; set;}
         public required string Password {get; set;}
+        public required string Email {get; set;}
 
     }
 }
