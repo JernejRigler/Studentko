@@ -1,0 +1,20 @@
+@{
+    ViewData["Title"] = "Login";
+}
+
+@using (Html.BeginForm("Login","Student",FormMethod.Post))
+{
+    <div class="text-center">
+        <h1 class="display-4">Welcome</h1>
+
+        <div class="loginform">
+            <label for="username"> Uporabniško ime: </label>
+            <input type="text" id="username" name="username" required> <br>
+        </div>
+        <div class="loginform">
+            <label for="pwd"> Geslo: </label>
+            <input type="password" id="pwd" name="pwd" required> <br>
+        </div>
+        <button type="submit"> Login </button>
+    </div>
+}
