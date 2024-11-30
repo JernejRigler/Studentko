@@ -30,6 +30,10 @@
                             <li class="nav-item">
                                 <span class="nav-link">Welcome, @User.Identity.Name</span> <!-- Display the user's name -->
                             </li>
+                            <!-- dodati: if stavek, ki bo preveril, če uporabnik lahko objavi novico -->
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="User" asp-action="PublishPost"> Dodaj objavo </a>
+                            </li>
                             <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Logout">Odjava</a>
                         }
                         else
