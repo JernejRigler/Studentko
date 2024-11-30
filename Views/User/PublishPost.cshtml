@@ -1,0 +1,37 @@
+@{
+    ViewData["Title"] = "PublishPost";
+}
+
+@using (Html.BeginForm("PublishPost", "User", FormMethod.Post))
+{
+    <div class="text-center">
+        <h1 class="display-4">Objava</h1>
+        <div class="publishform">
+            <label for="title"> Naslov: </label>
+            <input type="text" id="title" name="title" required> <br>
+
+            <label for="subtitle"> Podnaslov: </label>
+            <input type="text" id="subtitle" name="subtitle"> <br>
+
+            <label for="postcontent"> Vsebina: </label> <br>
+            <textarea id="textinput" name="postcontent" maxlength="500" oninput="count()"></textarea>
+            <span id="indicate"> Ostalo vam je še 500 znakov</span> <br>
+            <label for="fileAttachment"> Priloži datoteko: </label>
+            <input type="file" id="postFile" name="fileAttachment"> <br>
+            <button type="submit"> Objavi </button>
+            <a asp-controller="Home" asp-action="Index"> Prekliči </a>
+        </div>
+    </div>
+}
+<script>
+    let textarea = document.getElementById("textinput");
+    let indicator = document.getElementById("indicate");
+    function count(){
+        let max = textarea.getAttribute("maxlength");
+        let current = textarea.value.length;
+        let remaning = max - current;
+
+        indicator.innerHTML = "Ostalo vam je še " + remaning + " znakov ";
+    }
+
+</script>
