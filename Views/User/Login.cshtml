@@ -2,10 +2,10 @@
     ViewData["Title"] = "Login";
 }
 
-@using (Html.BeginForm("Login","Student",FormMethod.Post))
+@using (Html.BeginForm("Login", "User", FormMethod.Post))
 {
     <div class="text-center">
-        <h1 class="display-4">Welcome</h1>
+        <h1 class="display-4">Prijavi se</h1>
 
         <div class="loginform">
             <label for="username"> Uporabniško ime: </label>
@@ -16,6 +16,6 @@
             <input type="password" id="pwd" name="pwd" required> <br>
         </div>
         <button type="submit"> Login </button>
-         <a asp-action="Register"> Registriraj se </a>
+        <a asp-controller="User" asp-action="Register">Še nimate računa?</a>
     </div>
 }
