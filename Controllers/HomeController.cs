@@ -17,20 +17,6 @@ public class HomeController : Controller
     {
         return View();
     }
-
-    public IActionResult Privacy()
-    {
-        return View();
-    }
-    public IActionResult Login(){
-        
-        return View();
-    }
-    //ne vem točno zakaj more bit to tle in ne v StudentController, kjer bi blo simselno, samo če je tuki dela, če pa dam tja pa ne
-    //mogoče neki z asp-controller ?? 
-     public IActionResult Register(){
-        return View();
-    }
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
