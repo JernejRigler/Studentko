@@ -16,7 +16,6 @@ public class UserController : Controller
     [HttpGet]
     public IActionResult Login()
     {
-        Console.WriteLine("kuajdej");
         return View();
     }
     [HttpGet]
@@ -27,7 +26,6 @@ public class UserController : Controller
     }
     [HttpGet]
     public IActionResult PublishPost(){
-        Console.WriteLine("civ civ twetam objavo/novico");
         return View();
     }
     [HttpPost]
