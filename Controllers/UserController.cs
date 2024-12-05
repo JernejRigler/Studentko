@@ -24,10 +24,6 @@ public class UserController : Controller
         Console.WriteLine("registracija");
         return View();
     }
-    [HttpGet]
-    public IActionResult PublishPost(){
-        return View();
-    }
     [HttpPost]
     public async Task<IActionResult> Login(string username, string pwd)
     {
@@ -70,15 +66,11 @@ public class UserController : Controller
     [HttpPost]
     public async Task<IActionResult> Logout()
     {
+        Console.WriteLine("halo");
         await _signInManager.SignOutAsync();
         return RedirectToAction("Index", "Home");
     }
-    [HttpPost]
-    public IActionResult PublishPost(string title, string subtitle, string postcontent, IFormFile postAttachment){
-
-        Console.WriteLine("objava je bila uspešno objavlena");
-        return RedirectToAction("Index","Home");
-    }
+  
 
     
 }

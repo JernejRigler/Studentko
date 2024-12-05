@@ -1,0 +1,39 @@
+@model Studentko.Models.Post
+@{
+    ViewData["Title"] = "FormPost";
+}
+@using (Html.BeginForm("PublishPost", "Post", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="text-center">
+        <h1 class="display-4">Objava</h1>
+        <div class="publishform">
+            <label for="Title"> Naslov: </label>
+            @Html.TextBoxFor(m => m.title, new { id = "title", required = "required" }) <br>
+
+            <label for="Subtitle"> Podnaslov: </label>
+            @Html.TextBoxFor(m => m.subtitle, new { id = "subtitle" }) <br>
+
+            <label for="Content"> Vsebina: </label> <br>
+            @Html.TextAreaFor(m => m.content, new { id = "textinput", maxlength = "500", oninput = "count()" }) <br>
+            <span id="indicate"> Ostalo vam je še 500 znakov</span> <br>
+
+            <label for="FileAttachment"> Priloži datoteko: </label>
+            <input type="file" id="postFile" name="PostAttachment" /> <br>
+
+            <button type="submit"> Objavi </button>
+            <a asp-controller="Home" asp-action="Index"> Prekliči </a>
+        </div>
+    </div>
+}
+<script>
+    let textarea = document.getElementById("textinput");
+    let indicator = document.getElementById("indicate");
+    function count(){
+        let max = textarea.getAttribute("maxlength");
+        let current = textarea.value.length;
+        let remaning = max - current;
+
+        indicator.innerHTML = "Ostalo vam je še " + remaning + " znakov ";
+    }
+
+</script>

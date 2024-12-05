@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Studentko.Data;
 
@@ -11,9 +12,11 @@ using Studentko.Data;
 namespace Studentko.Migrations
 {
     [DbContext(typeof(StudentkoContext))]
-    partial class StudentkoContextModelSnapshot : ModelSnapshot
+    [Migration("20241205181819_AddPostTable")]
+    partial class AddPostTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -269,14 +272,14 @@ namespace Studentko.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostID"));
 
-                    b.Property<string>("FileAttachment")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("content")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("date")
+                    b.Property<DateTime>("date")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("fileAttachment")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool?>("isTrending")
                         .HasColumnType("bit");

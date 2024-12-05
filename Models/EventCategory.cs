@@ -1,9 +1,9 @@
 namespace Studentko.Models;
 using System;
 using System.Collections.Generic;
-public class Category
+public class EventCategory
 {
-    public int ID { get; set; }
-    public string category { get; set; }
+    public int EventCategoryID { get; set; }
+    public string? category { get; set; }
 
 }
