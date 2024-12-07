@@ -1,0 +1,121 @@
+@model IEnumerable<Studentko.Models.Post>
+@{
+    ViewData["Title"] = "View Calendar";
+}
+<div class="text-center">
+    <h1 class="display-4"> Welcome to your calendar </h1>
+    
+    <div class="calendar-container">
+        <header class="calendar-head">
+            <p id="calendar-current-date"></p>
+            <div class="calendar-nav">
+                <span id="calendar-back"> Prev month </span>
+                <span id="calendar-next"> Next month </span>
+            </div>
+        </header>
+
+        <div class="calendar-body">
+            <ul id="calendar-weekdays">
+                <li> Pon </li>
+                <li> Tor </li>
+                <li> Sre </li>
+                <li> Čet </li>
+                <li> Pet </li>
+                <li> Sob </li>
+                <li> Ned </li>
+            </ul>
+            <ul id="calendar-dates"></ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    const months = 
+    [
+        "Januar",
+        "Februar",
+        "Marec",
+        "April",
+        "Maj",
+        "Junij",
+        "Julij",
+        "Avgust",
+        "September",
+        "Oktober",
+        "November",
+        "December"
+    ];
+    let date = new Date();
+    let currmonth = date.getMonth();
+    let curryear = date.getFullYear();
+
+    let currdate = document.getElementById("calendar-current-date");
+    let day = document.getElementById("calendar-dates");
+    let next = document.getElementById("calendar-next");
+    let prev = document.getElementById("calendar-back");
+
+    function displayCalendar(){
+        
+        let month = currmonth;
+        let year = curryear;
+        console.log(month);
+        let dayone = new Date(year,month,1).getDay();
+        let lastday = new Date(year,month + 1,0);
+        
+        let daysinmonth = lastday.getDate();
+        console.log(daysinmonth);
+        let lastmonth = new Date(year,month,0).getDate();
+        let offset = 0;
+        if(dayone == 0){
+            offset = 6;
+        }
+        else if(dayone == 1){
+            offset = 0;
+        }
+        else if(dayone == 2){
+            offset = 1;
+        }
+        else if(dayone == 3){
+            offset = 2;
+        }
+        else if(dayone == 4){
+            offset = 3;
+        }
+        else if(dayone == 5){
+            offset = 4;
+        }
+        else if(dayone == 6){
+            offset = 5;
+        }
+        let store = "";
+        for(let i= offset; i > 0; i--){
+            store+= `<li class="inactive">${lastmonth - i + 1}</li>`;
+        }
+        for(let i=1; i <= daysinmonth; i++ ){
+            store += `<li>${i}</li>`;
+        }
+        currdate.innerText = `${months[month]} ${year}`;
+        day.innerHTML = store;
+    }
+    displayCalendar();
+
+    next.addEventListener("click", (event) => {
+        console.log("naslednji mesec");
+        currmonth += 1;
+        if(currmonth > 11){
+            currmonth = 0;
+            curryear += 1;
+        }
+        displayCalendar();
+    });
+    prev.addEventListener("click", (event) => {
+        console.log("prejšni mesec");
+        currmonth -= 1;
+        if(currmonth < 0){
+            currmonth = 11;
+            curryear -= 1;
+        }
+        displayCalendar();
+    });   
+
+</script>
