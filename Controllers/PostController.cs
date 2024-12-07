@@ -6,7 +6,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Studentko.Controllers;
 
-public class PostController : Controller{
+public class PostController : Controller
+{
     private readonly StudentkoContext _context;
     public PostController(StudentkoContext context){
         _context = context;
