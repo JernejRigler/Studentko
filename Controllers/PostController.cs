@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Studentko.Models;
 using Studentko.Data;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.EntityFrameworkCore;
 
 namespace Studentko.Controllers;
 
@@ -16,6 +17,17 @@ public class PostController : Controller
     public IActionResult FormPost(){
         Console.WriteLine("Na objavi forum");
         return View();
+    }
+    public async Task<IActionResult> PostDetails(int id){
+        var post = await _context.Posts
+            .Where(p => p.PostID == id)
+            .Include(p => p.Comments)
+            .FirstOrDefaultAsync();
+        if(post == null){
+            Console.WriteLine("Iskana objava ni bila najdena");
+            return RedirectToAction("Index", "Home");
+        }
+        return View(post);
     }
     [HttpPost]
     public async Task<IActionResult> PublishPost(Post newPost, IFormFile postAttachment){
