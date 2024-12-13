@@ -13,10 +13,11 @@ public class Post
 
     [NotMapped]
     public IFormFile? PostAttachment { get; set; }
-
     public string? FileAttachment {get; set;}
-
     public DateTime? date  { get; set; }
     public bool? isTrending { get; set; } 
+
+    public ICollection<Comment> Comments { get; set;} = new List<Comment>();
+
 
 }

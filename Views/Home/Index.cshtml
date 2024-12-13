@@ -15,6 +15,9 @@
             <h3>@post.title</h3>
             <h4>@post.subtitle</h4>
             <p>@post.content</p>
+            <div>  
+                <a class="nav-link" asp-area="" asp-controller="Post" asp-action="PostDetails" asp-route-id="@post.PostID"> View Details </a>
+            </div>
             <small>Objavleno: @post.date?.ToString("MM/dd/yyyy")</small>
         </li>
     }

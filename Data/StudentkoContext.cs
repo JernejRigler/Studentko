@@ -13,6 +13,7 @@ public class StudentkoContext : IdentityDbContext<ApplicationUser>
     //public required DbSet<ApplicationUser> User { get; set; }
     public DbSet<Event> Events { get; set; }
     public DbSet<Post> Posts { get; set; }
+    public DbSet<Comment> Comments { get; set;}
     public DbSet<EventCategory> EventCategories { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
