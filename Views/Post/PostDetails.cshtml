@@ -14,15 +14,17 @@
 
 <h3>Comments:</h3>
 
-<ul>
+<ul id="comments-list">
     @if (Model.Comments != null && Model.Comments.Any())
     {
         foreach (var comment in Model.Comments)
         {
-            <li>
-                <strong>@comment.user?.UserName</strong> commented on @comment.CreatedAt?.ToString("MM/dd/yyyy")<br />
-                <p>@comment.content</p>
-            </li>
+            <div id="commentcontent">
+                <li>               
+                    <strong>@comment.user.UserName</strong> commented on @comment.CreatedAt?.ToString("MM/dd/yyyy")<br />
+                    <p>@comment.content</p>
+                </li>
+            </div>
         }
     }
     else
