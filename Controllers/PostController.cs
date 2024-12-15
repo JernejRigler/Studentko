@@ -22,6 +22,7 @@ public class PostController : Controller
         var post = await _context.Posts
             .Where(p => p.PostID == id)
             .Include(p => p.Comments)
+                .ThenInclude(c => c.user)
             .FirstOrDefaultAsync();
         if(post == null){
             Console.WriteLine("Iskana objava ni bila najdena");
