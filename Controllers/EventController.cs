@@ -7,41 +7,40 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Studentko.Controllers;
 
-public class PostController : Controller
+public class EventController : Controller
 {
     private readonly StudentkoContext _context;
-    public PostController(StudentkoContext context){
+    public EventController(StudentkoContext context){
         _context = context;
     }
      [HttpGet]
-    public IActionResult FormPost(){
-        Console.WriteLine("Na objavi forum");
+    public IActionResult FormEvent(){
+        Console.WriteLine("Na dogdoek forum");
         return View();
     }
-    public async Task<IActionResult> PostDetails(int id){
-        var post = await _context.Posts
+    public async Task<IActionResult> EventDetails(int id){
+        var currevent = await _context.Event
             .Where(p => p.PostID == id)
-            .Include(p => p.Comments)
-                .ThenInclude(c => c.user)
             .FirstOrDefaultAsync();
-        if(post == null){
-            Console.WriteLine("Iskana objava ni bila najdena");
+        if(currevent == null){
+            Console.WriteLine("Iskan dogodek ni bil najden");
             return RedirectToAction("Index", "Home");
         }
-        return View(post);
+        return View(currevent);
     }
     [HttpPost]
-    public async Task<IActionResult> PublishPost(Post newPost, IFormFile postAttachment){
+    public async Task<IActionResult> PublishEvent(Event newEvent, IFormFile PostAttachment){
         if(ModelState.IsValid){
-            if(postAttachment != null){
+            if(PostAttachment != null){
                 //nek file hanadling
             }
-            newPost.date = DateTime.Now;
-            _context.Posts.Add(newPost);
+            newEvent.type = "Dogodek";
+            newEvent.createdAt = DateTime.Now;
+            _context.Event.Add(newEvent);
 
             await _context.SaveChangesAsync();
 
-            Console.WriteLine("objava je bila uspešno objavlena");
+            Console.WriteLine("dogodek je bila uspešno objavlena");
             return RedirectToAction("Index","Home");
         }
         //errors
@@ -49,7 +48,7 @@ public class PostController : Controller
         {
         Console.WriteLine($"Key: {error.Key}, Errors: {string.Join(", ", error.Value.Errors.Select(e => e.ErrorMessage))}");
         }
-        return View("FormPost");
+        return View("FormEvent");
         
     }
 }

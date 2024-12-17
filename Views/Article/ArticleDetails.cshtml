@@ -1,5 +1,5 @@
 
-@model Studentko.Models.Post
+@model Studentko.Models.Article
 @{
     ViewData["Title"] = "PostDetails";
 }
@@ -10,7 +10,7 @@
     <h2>@Model.title</h2>
     <h3>@Model.subtitle</h3>
     <p>@Model.content</p>
-    <small>Posted on: @Model.date?.ToString("MM/dd/yyyy")</small>
+    <small>Posted on: @Model.createdAt?.ToString("MM/dd/yyyy")</small>
 
 <h3>Comments:</h3>
 

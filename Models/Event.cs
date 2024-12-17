@@ -2,13 +2,17 @@ namespace Studentko.Models;
 using System;
 using System.Collections.Generic;
 using NuGet.Protocol.Plugins;
+using System.ComponentModel.DataAnnotations.Schema; 
 
-public class Event
+public class Event : Post
 {
-    public int EventID { get; set;}
-    public string? title { get; set; }
-    public int? numberSpaces { get; set; }
-    public string? description { get; set; }
-    public bool? isTrending { get; set; } 
+    
+    public int? ParticipantLimit { get; set; }
+    public DateTime? EventDate { get; set; } //datum za ko se bo dogodek začel
+
+    public string? FileAttachment { get; set; }
+
+    [NotMapped]
+    public IFormFile? PostAttachment { get; set; }
 
 }
