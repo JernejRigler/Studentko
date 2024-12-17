@@ -10,8 +10,10 @@ namespace Studentko.Controllers;
 public class EventController : Controller
 {
     private readonly StudentkoContext _context;
-    public EventController(StudentkoContext context){
+    private readonly UserManager<ApplicationUser> _userManager;
+    public EventController(StudentkoContext context, UserManager<ApplicationUser> userManager){
         _context = context;
+        _userManager = userManager;
     }
      [HttpGet]
     public IActionResult FormEvent(){
@@ -50,5 +52,25 @@ public class EventController : Controller
         }
         return View("FormEvent");
         
+    }
+    [HttpPost]
+    public async Task<IActionResult> JoinEvent(int eventID){
+        var currevent = await _context.Event
+            .Where(p => p.PostID == eventID)
+            .FirstOrDefaultAsync();
+        var curruser = await _userManager.GetUserAsync(User);
+        if(currevent == null || curruser == null){
+            Console.WriteLine("Iskani dogodek/user ni bil najden");
+            return RedirectToAction("Index","Home");
+        }
+        UserEvent newUserEvent = new UserEvent{
+            UserID = curruser.Id,
+            EventID = eventID,
+            JoineddAt = DateTime.Now
+        };
+        _context.UserEvent.Add(newUserEvent);
+        await _context.SaveChangesAsync();
+        Console.WriteLine("uspesno prijavlen na dogodek");
+        return RedirectToAction("EventDetails", "Event", new {id = eventID});
     }
 }
