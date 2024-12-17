@@ -1,7 +1,7 @@
 
 @model Studentko.Models.Event
 @{
-    ViewData["Title"] = "PostDetails";
+    ViewData["Title"] = "EventDetails";
 }
 
 <div class="text-center">
@@ -11,7 +11,13 @@
     <small>Posted on: @Model.createdAt?.ToString("MM/dd/yyyy")</small>
     <p>@Model.content</p>
     <h3>Comments:</h3>
-
+    @if( User.Identity.IsAuthenticated){
+        @using (Html.BeginForm("JoinEvent", "Event", FormMethod.Post))
+        {
+            <input type="hidden" name="eventID" value="@Model.PostID" />
+            <button type="submit"> Prijavi se na dogodek </button>
+        }
+    }
     <ul id="comments-list">
         @if (Model.Comments != null && Model.Comments.Any())
         {
@@ -32,6 +38,7 @@
     </ul>
 
     @if (User.Identity.IsAuthenticated){
+        
         @using (Html.BeginForm("AddComment", "Comment", FormMethod.Post))
         {
             <input type="hidden" name="PostID" value="@Model.PostID" />

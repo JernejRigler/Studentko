@@ -15,4 +15,6 @@ public class Event : Post
     [NotMapped]
     public IFormFile? PostAttachment { get; set; }
 
+    public ICollection<UserEvent> Participants { get; set; } = new List<UserEvent>();
+
 }
