@@ -246,32 +246,7 @@ namespace Studentko.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Comments");
-                });
-
-            modelBuilder.Entity("Studentko.Models.Event", b =>
-                {
-                    b.Property<int>("EventID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EventID"));
-
-                    b.Property<string>("description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("isTrending")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("numberSpaces")
-                        .HasColumnType("int");
-
-                    b.Property<string>("title")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("EventID");
-
-                    b.ToTable("Event", (string)null);
+                    b.ToTable("Comment", (string)null);
                 });
 
             modelBuilder.Entity("Studentko.Models.EventCategory", b =>
@@ -298,27 +273,52 @@ namespace Studentko.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostID"));
 
-                    b.Property<string>("FileAttachment")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("content")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("date")
+                    b.Property<DateTime?>("createdAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool?>("isTrending")
+                    b.Property<bool>("isTrending")
                         .HasColumnType("bit");
 
-                    b.Property<string>("subtitle")
+                    b.Property<string>("title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("title")
+                    b.Property<string>("type")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("PostID");
 
                     b.ToTable("Post", (string)null);
+
+                    b.UseTptMappingStrategy();
+                });
+
+            modelBuilder.Entity("Studentko.Models.Article", b =>
+                {
+                    b.HasBaseType("Studentko.Models.Post");
+
+                    b.Property<string>("subtitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable("Article", (string)null);
+                });
+
+            modelBuilder.Entity("Studentko.Models.Event", b =>
+                {
+                    b.HasBaseType("Studentko.Models.Post");
+
+                    b.Property<DateTime?>("EventDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FileAttachment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ParticipantLimit")
+                        .HasColumnType("int");
+
+                    b.ToTable("Event", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -387,6 +387,24 @@ namespace Studentko.Migrations
                     b.Navigation("posts");
 
                     b.Navigation("user");
+                });
+
+            modelBuilder.Entity("Studentko.Models.Article", b =>
+                {
+                    b.HasOne("Studentko.Models.Post", null)
+                        .WithOne()
+                        .HasForeignKey("Studentko.Models.Article", "PostID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Studentko.Models.Event", b =>
+                {
+                    b.HasOne("Studentko.Models.Post", null)
+                        .WithOne()
+                        .HasForeignKey("Studentko.Models.Event", "PostID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Studentko.Models.Post", b =>

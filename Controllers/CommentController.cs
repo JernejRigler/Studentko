@@ -20,11 +20,11 @@ public class CommentController : Controller
     public async Task<IActionResult> AddComment(Comment newComment){
         if(ModelState.IsValid){
              newComment.UserID =  User.FindFirstValue(ClaimTypes.NameIdentifier);
-             _context.Comments.Add(newComment);
+             _context.Comment.Add(newComment);
              await _context.SaveChangesAsync();
 
-            return RedirectToAction("PostDetails","Post", new { id = newComment.PostID});
+            return RedirectToAction("Index","Home", new { id = newComment.PostID});
         }
-        return RedirectToAction("PostDetails","Post", new { id = newComment.PostID});
+        return RedirectToAction("Index","Home", new { id = newComment.PostID});
     }
 }

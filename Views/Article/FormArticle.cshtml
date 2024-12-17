@@ -1,0 +1,23 @@
+@model Studentko.Models.Article
+@{
+    ViewData["Title"] = "FormArticle";
+}
+@using (Html.BeginForm("PublishArticle", "Article", FormMethod.Post ))
+{
+    <div class="text-center">
+        <h1 class="display-4">Objava</h1>
+        <div class="publishform">
+            <label for="Title"> Naslov: </label>
+            @Html.TextBoxFor(m => m.title, new { id = "title", required = "required" }) <br>
+
+            <label for="Subtitle"> Podnaslov: </label>
+            @Html.TextBoxFor(m => m.subtitle, new { id = "subtitle" }) <br>
+
+            <label for="Content"> Vsebina: </label> <br>
+            @Html.TextAreaFor(m => m.content, new { id = "textinput"}) <br>
+
+            <button type="submit"> Objavi </button>
+            <a asp-controller="Home" asp-action="Index"> Prekliči </a>
+        </div>
+    </div>
+}

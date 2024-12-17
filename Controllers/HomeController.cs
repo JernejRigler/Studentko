@@ -25,11 +25,17 @@ public class HomeController : Controller
     */
     public async Task<IActionResult> Index()
 {
-    var posts = await _context.Posts
-        .OrderByDescending(p => p.date) // Sort posts by creation date
-        .ToListAsync();
+    var article = await _context.Article.ToListAsync();
+    var events = await _context.Event.ToListAsync();
 
-    return View(posts); // Pass posts to the view
+    var posts = new List<Post>();
+
+    posts.AddRange(article);
+    posts.AddRange(events);
+
+    posts = posts.OrderByDescending(item => item.createdAt).ToList();
+    
+    return View(posts);
 }
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()

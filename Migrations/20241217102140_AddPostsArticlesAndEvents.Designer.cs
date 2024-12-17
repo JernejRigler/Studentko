@@ -12,8 +12,8 @@ using Studentko.Data;
 namespace Studentko.Migrations
 {
     [DbContext(typeof(StudentkoContext))]
-    [Migration("20241205192103_AddFileAttachmentToPost")]
-    partial class AddFileAttachmentToPost
+    [Migration("20241217102140_AddPostsArticlesAndEvents")]
+    partial class AddPostsArticlesAndEvents
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -223,29 +223,33 @@ namespace Studentko.Migrations
                     b.ToTable("User", (string)null);
                 });
 
-            modelBuilder.Entity("Studentko.Models.Event", b =>
+            modelBuilder.Entity("Studentko.Models.Comment", b =>
                 {
-                    b.Property<int>("EventID")
+                    b.Property<int>("CommentID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EventID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CommentID"));
 
-                    b.Property<string>("description")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
 
-                    b.Property<bool?>("isTrending")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("numberSpaces")
+                    b.Property<int>("PostID")
                         .HasColumnType("int");
 
-                    b.Property<string>("title")
+                    b.Property<string>("UserID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("content")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("EventID");
+                    b.HasKey("CommentID");
 
-                    b.ToTable("Event", (string)null);
+                    b.HasIndex("PostID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("Comment", (string)null);
                 });
 
             modelBuilder.Entity("Studentko.Models.EventCategory", b =>
@@ -272,27 +276,52 @@ namespace Studentko.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostID"));
 
-                    b.Property<string>("FileAttachment")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("content")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("date")
+                    b.Property<DateTime?>("createdAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool?>("isTrending")
+                    b.Property<bool>("isTrending")
                         .HasColumnType("bit");
 
-                    b.Property<string>("subtitle")
+                    b.Property<string>("title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("title")
+                    b.Property<string>("type")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("PostID");
 
                     b.ToTable("Post", (string)null);
+
+                    b.UseTptMappingStrategy();
+                });
+
+            modelBuilder.Entity("Studentko.Models.Article", b =>
+                {
+                    b.HasBaseType("Studentko.Models.Post");
+
+                    b.Property<string>("subtitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable("Article", (string)null);
+                });
+
+            modelBuilder.Entity("Studentko.Models.Event", b =>
+                {
+                    b.HasBaseType("Studentko.Models.Post");
+
+                    b.Property<DateTime?>("EventDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FileAttachment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ParticipantLimit")
+                        .HasColumnType("int");
+
+                    b.ToTable("Event", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -344,6 +373,46 @@ namespace Studentko.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Studentko.Models.Comment", b =>
+                {
+                    b.HasOne("Studentko.Models.Post", "posts")
+                        .WithMany("Comments")
+                        .HasForeignKey("PostID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Studentko.Models.ApplicationUser", "user")
+                        .WithMany()
+                        .HasForeignKey("UserID");
+
+                    b.Navigation("posts");
+
+                    b.Navigation("user");
+                });
+
+            modelBuilder.Entity("Studentko.Models.Article", b =>
+                {
+                    b.HasOne("Studentko.Models.Post", null)
+                        .WithOne()
+                        .HasForeignKey("Studentko.Models.Article", "PostID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Studentko.Models.Event", b =>
+                {
+                    b.HasOne("Studentko.Models.Post", null)
+                        .WithOne()
+                        .HasForeignKey("Studentko.Models.Event", "PostID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Studentko.Models.Post", b =>
+                {
+                    b.Navigation("Comments");
                 });
 #pragma warning restore 612, 618
         }

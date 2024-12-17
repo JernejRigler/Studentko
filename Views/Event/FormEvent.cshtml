@@ -1,25 +1,27 @@
-@model Studentko.Models.Post
+@model Studentko.Models.Event
 @{
-    ViewData["Title"] = "FormPost";
+    ViewData["Title"] = "FormEvent";
 }
-@using (Html.BeginForm("PublishPost", "Post", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("PublishEvent", "Event", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="text-center">
         <h1 class="display-4">Objava</h1>
         <div class="publishform">
-            <label for="Title"> Naslov: </label>
+            <label for="Title"> Naslov dogodka: </label>
             @Html.TextBoxFor(m => m.title, new { id = "title", required = "required" }) <br>
-
-            <label for="Subtitle"> Podnaslov: </label>
-            @Html.TextBoxFor(m => m.subtitle, new { id = "subtitle" }) <br>
 
             <label for="Content"> Vsebina: </label> <br>
             @Html.TextAreaFor(m => m.content, new { id = "textinput", maxlength = "500", oninput = "count()" }) <br>
             <span id="indicate"> Ostalo vam je še 500 znakov</span> <br>
 
-            <label for="FileAttachment"> Priloži datoteko: </label>
+            <label for="ParticipantLimit"> Število mest: </label> <br>
+            <input type="number" id="eventLimit" name="ParticipantLimit" />
+
+            <label for="PostAttachment"> Priloži datoteko: </label>
             <input type="file" id="postFile" name="PostAttachment" /> <br>
 
+            <label for="EventDate"> Začetek dogodka: </label>
+            <input type="date" id="startDate" name="EventDate">
             <button type="submit"> Objavi </button>
             <a asp-controller="Home" asp-action="Index"> Prekliči </a>
         </div>
