@@ -19,29 +19,107 @@
         <div class="loginform">
             <label for="pwd"> Geslo: </label>
             <input type="password" id="pwd" name="pwd" required> <br>
+
+        </div>
+        <div class="loginform">
+            <label></label>
+            <ul id="passwordCriteria" style="list-style-type: none;">
+                <li id="length" class="invalid">Vsaj 6 znakov</li>
+                <li id="uppercase" class="invalid">Ena črka z veliko začetnico</li>
+                <li id="digit" class="invalid">Ena števka</li>
+                <li id="special" class="invalid">En ne-alfanumerični znak</li>
+            </ul><br>
         </div>
         <div class="loginform">
             <label for="confirmpwd"> Potrdi Geslo: </label>
             <input type="password" id="confirmpwd" name="confirmpwd" onkeyup='checkpwds();' required> <br>
         </div>
-        <span id="msg"></span>
-        <button type="submit"> Dodaj račun </button>
+        <div class="loginform">
+            <label for="confirmpwd"></label>
+            <span id="msg" class="invalid">Gesli se morata ujemati</span> <br>
+        </div>
+
+        <button type="submit" id="register" disabled> Dodaj račun </button> <br>
         <a asp-action="Login"> Nazaj na prijavo </a>
     </div>
 
 }
 <!-- Preverjanje pravilnosti gesla  -->
 <script>
-    var checkpwds = function () {
-        let pwd = document.getElementById("pwd").value;
-        let cpwd = document.getElementById("confirmpwd").value;
-        if (pwd == cpwd) {
-            document.getElementById("msg").style.color = 'green';
-            document.getElementById("msg").innerHTML = "gesla se ujemata";
+    const passwordInput = document.getElementById('pwd');
+    const submitButton = document.getElementById('register');
+    const repeatPasswordInput = document.getElementById('confirmpwd');
+
+    const lengthCriteria = document.getElementById('length');
+    const uppercaseCriteria = document.getElementById('uppercase');
+    const digitCriteria = document.getElementById('digit');
+    const specialCriteria = document.getElementById('special');
+    const matchMessage = document.getElementById('msg');
+
+    function validatePassword() {
+        const password = passwordInput.value;
+        let isValid = true;
+
+        // Validate each criterion
+        if (password.length >= 6) {
+            lengthCriteria.classList.add('valid');
+            lengthCriteria.classList.remove('invalid');
+        } else {
+            lengthCriteria.classList.add('invalid');
+            lengthCriteria.classList.remove('valid');
+            isValid = false;
         }
-        else {
-            document.getElementById("msg").style.color = 'red';
-            document.getElementById("msg").innerHTML = "Gesla se ne ujemata";
+
+        if (/[A-Z]/.test(password)) {
+            uppercaseCriteria.classList.add('valid');
+            uppercaseCriteria.classList.remove('invalid');
+        } else {
+            uppercaseCriteria.classList.add('invalid');
+            uppercaseCriteria.classList.remove('valid');
+            isValid = false;
         }
+
+        if (/\d/.test(password)) {
+            digitCriteria.classList.add('valid');
+            digitCriteria.classList.remove('invalid');
+        } else {
+            digitCriteria.classList.add('invalid');
+            digitCriteria.classList.remove('valid');
+            isValid = false;
+        }
+
+        if (/[^a-zA-Z\d]/.test(password)) {
+            specialCriteria.classList.add('valid');
+            specialCriteria.classList.remove('invalid');
+        } else {
+            specialCriteria.classList.add('invalid');
+            specialCriteria.classList.remove('valid');
+            isValid = false;
+        }
+
+        // Check if passwords match
+        if (password === repeatPasswordInput.value && password.length > 0) {
+            matchMessage.classList.add('valid');
+            matchMessage.classList.remove('invalid');
+        } else {
+            matchMessage.classList.add('invalid');
+            matchMessage.classList.remove('valid');
+            isValid = false;
+        }
+
+        // Enable or disable submit button
+        submitButton.disabled = !isValid;
     }
+
+    // Validate on input event for both password fields
+    passwordInput.addEventListener('input', validatePassword);
+    repeatPasswordInput.addEventListener('input', validatePassword);
+
+    // Prevent form submission if invalid
+    document.getElementById('registrationForm').addEventListener('submit', function (event) {
+        if (submitButton.disabled) {
+            event.preventDefault();
+            alert("Please ensure all password requirements are met and that the passwords match.");
+        }
+    });
 </script>

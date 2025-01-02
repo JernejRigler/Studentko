@@ -8,6 +8,15 @@
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 
     <h2>Latest Posts</h2>
+    @if (User.IsInRole("Admin"))
+{
+    <button class="btn btn-primary">Admin-Only Button</button>
+}
+
+@if (User.IsInRole("User"))
+{
+    <button class="btn btn-secondary">User-Only Button</button>
+}
 <ul>
     @foreach (var post in Model)
     {

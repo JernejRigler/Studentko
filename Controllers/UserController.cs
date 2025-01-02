@@ -49,6 +49,7 @@ public class UserController : Controller
 
         if (result.Succeeded)
         {
+            await _userManager.AddToRoleAsync(user, "User");
             await _signInManager.SignInAsync(user, isPersistent: false);
             Console.WriteLine("succesful register!");
             return RedirectToAction("Index", "Home");
@@ -63,14 +64,14 @@ public class UserController : Controller
         return View();
     }
 
-    [HttpPost]
+    [HttpGet]
     public async Task<IActionResult> Logout()
     {
         Console.WriteLine("halo");
         await _signInManager.SignOutAsync();
         return RedirectToAction("Index", "Home");
     }
-  
 
-    
+
+
 }

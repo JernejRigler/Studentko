@@ -31,12 +31,17 @@
                                 <span class="nav-link">Welcome, @User.Identity.Name</span> <!-- Display the user's name -->
                             </li>
                             <!-- dodati: if stavek, ki bo preveril, če uporabnik lahko objavi novico -->
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Event" asp-action="FormEvent"> Dodaj dogodek </a>
-                            </li>
-                            <li class="nav-item">
-                                  <a class="nav-link" asp-area="" asp-controller="Article" asp-action="FormArticle"> Dodaj članek </a>
-                            </li>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Event" asp-action="FormEvent"> Dodaj dogodek
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Article" asp-action="FormArticle"> Dodaj
+                                        članek </a>
+                                </li>
+                            }
                             <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Logout">Odjava</a>
                         }
                         else
@@ -46,7 +51,8 @@
                             </li>
                         }
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Calendar" asp-action="ViewCalendar">Koledar</a>
+                            <a class="nav-link" asp-area="" asp-controller="Calendar"
+                                asp-action="ViewCalendar">Koledar</a>
                         </li>
                     </ul>
                 </div>
