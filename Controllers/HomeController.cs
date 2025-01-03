@@ -26,7 +26,7 @@ public class HomeController : Controller
     public async Task<IActionResult> Index()
 {
     var article = await _context.Article.ToListAsync();
-    var events = await _context.Event.ToListAsync();
+    var events = await _context.Event.Include(e => e.Participants).ToListAsync();
 
     var posts = new List<Post>();
 

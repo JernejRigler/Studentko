@@ -1,5 +1,6 @@
 
 @model Studentko.Models.Event
+@using System.Security.Claims;
 @{
     ViewData["Title"] = "EventDetails";
 }
@@ -10,14 +11,25 @@
     <h2>@Model.title</h2>
     <small>Posted on: @Model.createdAt?.ToString("MM/dd/yyyy")</small>
     <p>@Model.content</p>
-    <h3>Comments:</h3>
     @if( User.Identity.IsAuthenticated){
-        @using (Html.BeginForm("JoinEvent", "Event", FormMethod.Post))
-        {
-            <input type="hidden" name="eventID" value="@Model.PostID" />
-            <button type="submit"> Prijavi se na dogodek </button>
+        Console.WriteLine ("Stevilo prijavljenih:" + Model.Participants.Count);
+        if(ViewBag.isRegistered){
+            <span> Na ta dogodek si že prijavljen/a </span>
+            Console.WriteLine("si že prijavlen");
+        }
+        else if(Model.ParticipantLimit == Model.Participants.Count){
+            <span> Na dogodek se ni več možno prijaviti </span>
+         
+        }
+        else {
+            @using (Html.BeginForm("JoinEvent", "Event", FormMethod.Post))
+            {
+                <input type="hidden" name="eventID" value="@Model.PostID" />
+                <button type="submit"> Prijavi se na dogodek </button>
+            }
         }
     }
+    <h3>Comments:</h3>
     <ul id="comments-list">
         @if (Model.Comments != null && Model.Comments.Any())
         {

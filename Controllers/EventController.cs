@@ -4,6 +4,7 @@ using Studentko.Models;
 using Studentko.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Studentko.Controllers;
 
@@ -27,12 +28,21 @@ public class EventController : Controller
     {
         var currevent = await _context.Event
             .Where(p => p.PostID == id)
+            .Include(e => e.Participants)
+            .Include(p => p.Comments)
+              .ThenInclude(c => c.user)
             .FirstOrDefaultAsync();
+        
+        
         if (currevent == null)
         {
             Console.WriteLine("Iskan dogodek ni bil najden");
             return RedirectToAction("Index", "Home");
         }
+        var currentuser = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        var isRegistered = await _context.UserEvent.AnyAsync(ue => ue.UserID == currentuser && ue.EventID == id);
+        ViewBag.isRegistered = isRegistered;
         return View(currevent);
     }
     [HttpPost]
