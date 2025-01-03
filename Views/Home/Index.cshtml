@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<Post>
+
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -35,7 +36,8 @@
             }
             else if (post is Event evPost)
             {
-                <small> Število mest: @evPost.ParticipantLimit </small>
+               var registered = evPost.ParticipantLimit - evPost.Participants.Count;
+                <small> Število mest: @registered </small>
                 <a class="nav-link" asp-area="" asp-controller="Event" asp-action="EventDetails" asp-route-id="@post.PostID"> Oglej si dogodek </a>
             }           
         </li>
