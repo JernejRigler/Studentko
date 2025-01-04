@@ -1,6 +1,7 @@
-@model IEnumerable<Studentko.Models.Post>
+@model IEnumerable<Event>
 @{
     ViewData["Title"] = "View Calendar";
+    ViewData["Data"] = Model;
 }
 <div class="text-center">
     <h1 class="display-4"> Welcome to your calendar </h1>
@@ -28,8 +29,13 @@
         </div>
     </div>
 </div>
-
+@foreach(var ev in Model){
+    Console.WriteLine(ev.EventDate);
+}
 <script>
+    const eventsList  = @Html.Raw(Json.Serialize(ViewData["Data"]));
+
+    
     const months = 
     [
         "Januar",
@@ -58,12 +64,12 @@
         
         let month = currmonth;
         let year = curryear;
-        console.log(month);
+        
         let dayone = new Date(year,month,1).getDay();
         let lastday = new Date(year,month + 1,0);
         
         let daysinmonth = lastday.getDate();
-        console.log(daysinmonth);
+        
         let lastmonth = new Date(year,month,0).getDate();
         let offset = 0;
         if(dayone == 0){
@@ -92,7 +98,25 @@
             store+= `<li class="inactive">${lastmonth - i + 1}</li>`;
         }
         for(let i=1; i <= daysinmonth; i++ ){
-            store += `<li>${i}</li>`;
+            let event = null;
+            for(let j=0; j < eventsList.length; j++){
+
+                let eventDate = null;
+                if(eventsList[j].eventDate){
+                    eventDate = eventsList[j].eventDate = new Date(eventsList[j].eventDate);
+                }
+                if(eventDate && eventDate.getDate() == i && eventDate.getMonth() == month && eventDate.getFullYear() == year){
+                    console.log("halo");
+                    event = `<span class="calendar-event">${eventsList[j].title}</span>`;
+                    break;
+                }
+            }
+            if(event){
+                store += `<li>${i} ${event} </li>`;
+            }
+            else{
+                store += `<li>${i} </li>`;
+            }
         }
         currdate.innerText = `${months[month]} ${year}`;
         day.innerHTML = store;
