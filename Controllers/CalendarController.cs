@@ -18,10 +18,13 @@ public class CalendarController : Controller
 
     public async  Task<IActionResult> ViewCalendar()
     {
-        var eventDates = await _context.Event.ToListAsync();
+        var UserID =  User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var userEvents = await _context.UserEvent.
+                        Where(ue => ue.UserID == UserID).
+                        Select(ue => ue.Event).ToListAsync();
 
         Console.WriteLine("Halo želiš videti koledar jaaja");
-        return View(eventDates);
+        return View(userEvents);
     }
 
 }

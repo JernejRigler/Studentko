@@ -1,11 +1,12 @@
 @model IEnumerable<Event>
+@using System;
 @{
     ViewData["Title"] = "View Calendar";
     ViewData["Data"] = Model;
 }
 <div class="text-center">
-    <h1 class="display-4"> Welcome to your calendar </h1>
-    
+    <h1 class="display-4"> Pozdravljen na koledar </h1>
+
     <div class="calendar-container">
         <header class="calendar-head">
             <p id="calendar-current-date"></p>
@@ -29,28 +30,41 @@
         </div>
     </div>
 </div>
-@foreach(var ev in Model){
-    Console.WriteLine(ev.EventDate);
-}
-<script>
-    const eventsList  = @Html.Raw(Json.Serialize(ViewData["Data"]));
+<div class="dsahboard-container">
+    <h1>Welcome to your dashboard </h1>
+    <h2>Prihajoči dogodki: </h2>
+        <div class="dashboard-content">
+            <div class="dashboard-event">
+            @foreach(var userev in Model){
+                <span>@(userev.EventDate.HasValue ? userev.EventDate.Value.ToString("dddd, MMMM dd, yyyy") : "Neznani datum")</span> <br>
+                <span> &#x1F550; </span>
+                <span> @userev.title </span>
+                <br>
+            }
+            </div>
+        </div>
 
-    
-    const months = 
-    [
-        "Januar",
-        "Februar",
-        "Marec",
-        "April",
-        "Maj",
-        "Junij",
-        "Julij",
-        "Avgust",
-        "September",
-        "Oktober",
-        "November",
-        "December"
-    ];
+</div>
+
+<script>
+    const eventsList = @Html.Raw(Json.Serialize(ViewData["Data"]));
+
+
+    const months =
+        [
+            "Januar",
+            "Februar",
+            "Marec",
+            "April",
+            "Maj",
+            "Junij",
+            "Julij",
+            "Avgust",
+            "September",
+            "Oktober",
+            "November",
+            "December"
+        ];
     let date = new Date();
     let currmonth = date.getMonth();
     let curryear = date.getFullYear();
@@ -60,61 +74,61 @@
     let next = document.getElementById("calendar-next");
     let prev = document.getElementById("calendar-back");
 
-    function displayCalendar(){
-        
+    function displayCalendar() {
+
         let month = currmonth;
         let year = curryear;
-        
-        let dayone = new Date(year,month,1).getDay();
-        let lastday = new Date(year,month + 1,0);
-        
+
+        let dayone = new Date(year, month, 1).getDay();
+        let lastday = new Date(year, month + 1, 0);
+
         let daysinmonth = lastday.getDate();
-        
-        let lastmonth = new Date(year,month,0).getDate();
+
+        let lastmonth = new Date(year, month, 0).getDate();
         let offset = 0;
-        if(dayone == 0){
+        if (dayone == 0) {
             offset = 6;
         }
-        else if(dayone == 1){
+        else if (dayone == 1) {
             offset = 0;
         }
-        else if(dayone == 2){
+        else if (dayone == 2) {
             offset = 1;
         }
-        else if(dayone == 3){
+        else if (dayone == 3) {
             offset = 2;
         }
-        else if(dayone == 4){
+        else if (dayone == 4) {
             offset = 3;
         }
-        else if(dayone == 5){
+        else if (dayone == 5) {
             offset = 4;
         }
-        else if(dayone == 6){
+        else if (dayone == 6) {
             offset = 5;
         }
         let store = "";
-        for(let i= offset; i > 0; i--){
-            store+= `<li class="inactive">${lastmonth - i + 1}</li>`;
+        for (let i = offset; i > 0; i--) {
+            store += `<li class="inactive">${lastmonth - i + 1}</li>`;
         }
-        for(let i=1; i <= daysinmonth; i++ ){
+        for (let i = 1; i <= daysinmonth; i++) {
             let event = null;
-            for(let j=0; j < eventsList.length; j++){
+            for (let j = 0; j < eventsList.length; j++) {
 
                 let eventDate = null;
-                if(eventsList[j].eventDate){
+                if (eventsList[j].eventDate) {
                     eventDate = eventsList[j].eventDate = new Date(eventsList[j].eventDate);
                 }
-                if(eventDate && eventDate.getDate() == i && eventDate.getMonth() == month && eventDate.getFullYear() == year){
+                if (eventDate && eventDate.getDate() == i && eventDate.getMonth() == month && eventDate.getFullYear() == year) {
                     console.log("halo");
                     event = `<span class="calendar-event">${eventsList[j].title}</span>`;
                     break;
                 }
             }
-            if(event){
+            if (event) {
                 store += `<li>${i} ${event} </li>`;
             }
-            else{
+            else {
                 store += `<li>${i} </li>`;
             }
         }
@@ -126,7 +140,7 @@
     next.addEventListener("click", (event) => {
         console.log("naslednji mesec");
         currmonth += 1;
-        if(currmonth > 11){
+        if (currmonth > 11) {
             currmonth = 0;
             curryear += 1;
         }
@@ -135,11 +149,10 @@
     prev.addEventListener("click", (event) => {
         console.log("prejšni mesec");
         currmonth -= 1;
-        if(currmonth < 0){
+        if (currmonth < 0) {
             currmonth = 11;
             curryear -= 1;
         }
         displayCalendar();
-    });   
-
+    });
 </script>
