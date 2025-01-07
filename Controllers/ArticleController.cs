@@ -19,8 +19,9 @@ public class ArticleController : Controller
     [Authorize(Roles = "Admin")]
     public IActionResult FormArticle()
     {
+        var newPost = new Article { };
         Console.WriteLine("Na članek forum");
-        return View();
+        return View(newPost);
     }
     public async Task<IActionResult> ArticleDetails(int id)
     {
@@ -58,5 +59,67 @@ public class ArticleController : Controller
         }
         return View("FormPost");
 
+    }
+    [HttpGet]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> ArticleDelete(int id)
+    {
+        if (ModelState.IsValid)
+        {
+
+            var post = await _context.Article.FindAsync(id);
+            if (post == null)
+            {
+                return NotFound();
+            }
+            _context.Article.Remove(post);
+            await _context.SaveChangesAsync();
+        }
+        else
+        {
+            foreach (var error in ModelState)
+            {
+                Console.WriteLine($"Key: {error.Key}, Errors: {string.Join(", ", error.Value.Errors.Select(e => e.ErrorMessage))}");
+            }
+        }
+        return RedirectToAction("Index", "Home");
+    }
+
+    [HttpGet]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> ArticleEdit(int id)
+    {
+        var post = await _context.Article.FindAsync(id);
+        if (post == null)
+        {
+            return NotFound();
+        }
+
+        return View("FormArticle", post);
+    }
+
+    [HttpPost]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> ArticleEdit(Article updatedArticle)
+    {
+        if (!ModelState.IsValid)
+        {
+            // Reuse the "CreatePost" view to show validation errors
+            Console.WriteLine("invalid");
+            return View("FormArticle", updatedArticle);
+        }
+        var post = await _context.Article.FindAsync(updatedArticle.PostID);
+        if (post == null)
+        {
+            return NotFound();
+        }
+
+        post.title = updatedArticle.title;
+        post.subtitle = updatedArticle.subtitle;
+        post.content = updatedArticle.content;
+
+        await _context.SaveChangesAsync();
+
+        return RedirectToAction("Index", "Home");
     }
 }

@@ -21,8 +21,9 @@ public class EventController : Controller
     [Authorize(Roles = "Admin")]
     public IActionResult FormEvent()
     {
+        var newPost = new Event { };
         Console.WriteLine("Na dogdoek forum");
-        return View();
+        return View(newPost);
     }
     public async Task<IActionResult> EventDetails(int id)
     {
@@ -32,8 +33,8 @@ public class EventController : Controller
             .Include(p => p.Comments)
               .ThenInclude(c => c.user)
             .FirstOrDefaultAsync();
-        
-        
+
+
         if (currevent == null)
         {
             Console.WriteLine("Iskan dogodek ni bil najden");
@@ -94,5 +95,67 @@ public class EventController : Controller
         await _context.SaveChangesAsync();
         Console.WriteLine("uspesno prijavlen na dogodek");
         return RedirectToAction("EventDetails", "Event", new { id = eventID });
+    }
+
+    [HttpGet]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> EventDelete(int id)
+    {
+        if (ModelState.IsValid)
+        {
+
+            var currevent = await _context.Event.FindAsync(id);
+            if (currevent == null)
+            {
+                return NotFound();
+            }
+            _context.Event.Remove(currevent);
+            await _context.SaveChangesAsync();
+        }
+        else
+        {
+            foreach (var error in ModelState)
+            {
+                Console.WriteLine($"Key: {error.Key}, Errors: {string.Join(", ", error.Value.Errors.Select(e => e.ErrorMessage))}");
+            }
+        }
+        return RedirectToAction("Index", "Home");
+    }
+
+    [HttpGet]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> EventEdit(int id)
+    {
+        var post = await _context.Event.FindAsync(id);
+        if (post == null)
+        {
+            return NotFound();
+        }
+
+        return View("FormEvent", post);
+    }
+
+    [HttpPost]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> EventEdit(Event updatedEvent)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View("FormArticle", updatedEvent);
+        }
+        var post = await _context.Event.FindAsync(updatedEvent.PostID);
+        if (post == null)
+        {
+            return NotFound();
+        }
+
+        post.title = updatedEvent.title;
+        post.content = updatedEvent.content;
+        post.ParticipantLimit = updatedEvent.ParticipantLimit;
+        post.EventDate = updatedEvent.EventDate;
+
+        await _context.SaveChangesAsync();
+
+        return RedirectToAction("Index", "Home");
     }
 }
