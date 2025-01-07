@@ -25,6 +25,14 @@ body {
   margin-bottom: 60px;
 }
 
+li.right-nav-item {
+  margin-left: auto;
+}
+
+li.right-nav-item+li.right-nav-item {
+  margin-left: 0;
+}
+
 .loginform input {
   width: 200px;
   padding: 8px;
@@ -178,9 +186,18 @@ header #calendar-current-date {
 #calendar-dates li:not(.active):hover::before {
   background: #e4e1e1;
 }
-.calendar-event{
+
+.calendar-event {
   display: block;
   font-size: 0.8em;
   color: #0078FF;
   margin-top: 5px;
+}
+
+.postcontent {
+  word-wrap: break-word;
+}
+
+.home-posts li {
+  border: 1px solid black;
 }
