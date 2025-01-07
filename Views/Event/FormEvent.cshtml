@@ -2,8 +2,13 @@
 @{
     ViewData["Title"] = "FormEvent";
 }
-@using (Html.BeginForm("PublishEvent", "Event", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm(Model.PostID == 0 ? "PublishEvent" : "EventEdit", "Event", FormMethod.Post, new
 {
+    enctype =
+"multipart/form-data"
+}))
+{
+    @Html.HiddenFor(m => m.PostID)
     <div class="text-center">
         <h1 class="display-4">Objava</h1>
         <div class="publishform">
@@ -15,14 +20,14 @@
             <span id="indicate"> Ostalo vam je še 500 znakov</span> <br>
 
             <label for="ParticipantLimit"> Število mest: </label> <br>
-            <input type="number" id="eventLimit" name="ParticipantLimit" />
+            @Html.TextBoxFor(m => m.ParticipantLimit, new { type = "number", id = "eventLimit" }) <br>
 
             <label for="PostAttachment"> Priloži datoteko: </label>
             <input type="file" id="postFile" name="PostAttachment" /> <br>
 
             <label for="EventDate"> Začetek dogodka: </label>
             <input type="date" id="startDate" name="EventDate">
-            <button type="submit"> Objavi </button>
+            <button type="submit"> @(Model.PostID == 0 ? "Objavi" : "Shrani spremembe") </button>
             <a asp-controller="Home" asp-action="Index"> Prekliči </a>
         </div>
     </div>
@@ -30,12 +35,16 @@
 <script>
     let textarea = document.getElementById("textinput");
     let indicator = document.getElementById("indicate");
-    function count(){
+    function count() {
         let max = textarea.getAttribute("maxlength");
         let current = textarea.value.length;
         let remaning = max - current;
 
         indicator.innerHTML = "Ostalo vam je še " + remaning + " znakov ";
     }
+    window.onload = function () {
+        var input = document.getElementById('startDate');
+        input.value = "@Model.EventDate?.ToString("yyyy-MM-dd")";
+    };
 
 </script>

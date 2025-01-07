@@ -9,28 +9,46 @@
 
     <h2 style="text-decoration: underline;">Najnovejše objave</h2>
     <ul class="home-posts" style="list-style-type: none; margin: 0; padding: 0">
-    @foreach (var post in Model)
-    {
-        <li>
-            <h2>@post.type</h2>
-            <h3>@post.title</h3>
-            @if(post is Article article){
-                <h4> @article.subtitle </h4>
-            }
-            <small>Objavljeno: @post.createdAt?.ToString("MM/dd/yyyy")</small>
+        @foreach (var post in Model)
+        {
+            <li>
+                <h2>@post.type</h2>
+                <h3>@post.title</h3>
+                @if (post is Article article)
+                {
+                    <h4> @article.subtitle </h4>
+                }
+                <small>Objavljeno: @post.createdAt?.ToString("MM/dd/yyyy")</small>
 
-            <p class="postcontent">@post.content</p>
-            @if (post is Article article2)
-            {
-                 <a class="nav-link" asp-area="" asp-controller="Article" asp-action="ArticleDetails" asp-route-id="@post.PostID"> Preberi več </a>
-            }
-            else if (post is Event evPost)
-            {
-               var registered = evPost.ParticipantLimit - evPost.Participants.Count;
-                <small> Število mest: @registered </small>
-                <a class="nav-link" asp-area="" asp-controller="Event" asp-action="EventDetails" asp-route-id="@post.PostID"> Oglej si dogodek </a>
-            }           
-        </li>
-    }
-</ul>
+                <p class="postcontent">@post.content</p>
+                @if (post is Article article2)
+                {
+                    <a class="nav-link" asp-area="" asp-controller="Article" asp-action="ArticleDetails"
+                        asp-route-id="@post.PostID"> Preberi več </a>
+                    <a asp-action="ArticleEdit" asp-controller="Article" asp-route-id="@post.PostID" class="btn btn-primary">
+                        Uredi članek
+                    </a>
+                    <a asp-action="ArticleDelete" asp-controller="Article" asp-route-id="@post.PostID" class="btn btn-danger"
+                        onclick="return confirm('Ste prepričani, da želite izbrisati ta članek?');">
+                        Izbriši članek
+                    </a>
+                }
+                else if (post is Event evPost)
+                {
+                    var registered = evPost.ParticipantLimit - evPost.Participants.Count;
+                    <small> Število mest: @registered </small>
+                    <a class="nav-link" asp-area="" asp-controller="Event" asp-action="EventDetails"
+                        asp-route-id="@post.PostID"> Oglej si dogodek </a>
+                    <a asp-action="EventEdit" asp-controller="Event" asp-route-id="@post.PostID" class="btn btn-primary">
+                        Uredi dogodek
+                    </a>
+                    <a asp-action="EventDelete" asp-controller="Event" asp-route-id="@post.PostID" class="btn btn-danger"
+                        onclick="return confirm('Ste prepričani, da želite izbrisati ta dogodek?');">
+                        Izbriši dogodek
+                    </a>
+                }
+
+            </li>
+        }
+    </ul>
 </div>
