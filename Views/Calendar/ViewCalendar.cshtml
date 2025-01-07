@@ -48,7 +48,8 @@
 
 <script>
     const eventsList = @Html.Raw(Json.Serialize(ViewData["Data"]));
-
+    console.log(eventsList);
+    console.log("madafaka");
 
     const months =
         [
@@ -112,17 +113,16 @@
             store += `<li class="inactive">${lastmonth - i + 1}</li>`;
         }
         for (let i = 1; i <= daysinmonth; i++) {
-            let event = null;
+            let event = "";
             for (let j = 0; j < eventsList.length; j++) {
-
+                
                 let eventDate = null;
                 if (eventsList[j].eventDate) {
                     eventDate = eventsList[j].eventDate = new Date(eventsList[j].eventDate);
                 }
                 if (eventDate && eventDate.getDate() == i && eventDate.getMonth() == month && eventDate.getFullYear() == year) {
-                    console.log("halo");
-                    event = `<span class="calendar-event">${eventsList[j].title}</span>`;
-                    break;
+
+                    event += `<a href="/Event/EventDetails/${eventsList[j].postID}"> ${eventsList[j].title} </a>`;
                 }
             }
             if (event) {

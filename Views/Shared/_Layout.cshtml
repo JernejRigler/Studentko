@@ -27,9 +27,6 @@
 
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <li class="nav-item">
-                                <span class="nav-link">Welcome, @User.Identity.Name</span> <!-- Display the user's name -->
-                            </li>
                             <!-- dodati: if stavek, ki bo preveril, če uporabnik lahko objavi novico -->
                             @if (User.IsInRole("Admin"))
                             {
@@ -46,11 +43,17 @@
                                 <a class="nav-link" asp-area="" asp-controller="Calendar"
                                     asp-action="ViewCalendar">Koledar</a>
                             </li>
-                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Logout">Odjava</a>
+                            <li class="nav-item right-nav-item">
+                                <span class="nav-link">Welcome, @User.Identity.Name</span> <!-- Display the user's name -->
+                            </li>
+                            <li class="nav-item right-nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="User"
+                                    asp-action="Logout">Odjava</a>
+                            </li>
                         }
                         else
                         {
-                            <li class="nav-item">
+                            <li class="nav-item right-nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Login">Login</a>
                             </li>
                         }

@@ -5,31 +5,21 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Hello</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Pozdravljen na strani sistema Studentko!</h1>
 
-    <h2>Latest Posts</h2>
-    @if (User.IsInRole("Admin"))
-{
-    <button class="btn btn-primary">Admin-Only Button</button>
-}
-
-@if (User.IsInRole("User"))
-{
-    <button class="btn btn-secondary">User-Only Button</button>
-}
-<ul>
+    <h2 style="text-decoration: underline;">Najnovejše objave</h2>
+    <ul class="home-posts" style="list-style-type: none; margin: 0; padding: 0">
     @foreach (var post in Model)
     {
         <li>
+            <h2>@post.type</h2>
             <h3>@post.title</h3>
             @if(post is Article article){
                 <h4> @article.subtitle </h4>
             }
-            <h5> @post.type </h5>
-            <small>Objavleno: @post.createdAt?.ToString("MM/dd/yyyy")</small>
+            <small>Objavljeno: @post.createdAt?.ToString("MM/dd/yyyy")</small>
 
-            <p>@post.content</p>
+            <p class="postcontent">@post.content</p>
             @if (post is Article article2)
             {
                  <a class="nav-link" asp-area="" asp-controller="Article" asp-action="ArticleDetails" asp-route-id="@post.PostID"> Preberi več </a>
