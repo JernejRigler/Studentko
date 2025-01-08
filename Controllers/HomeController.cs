@@ -23,20 +23,32 @@ public class HomeController : Controller
         return View();
     }
     */
-    public async Task<IActionResult> Index()
-{
-    var article = await _context.Article.ToListAsync();
-    var events = await _context.Event.Include(e => e.Participants).ToListAsync();
+    public async Task<IActionResult> Index(int? categoryId)
+    {
+        var articlesQuery = _context.Article.Include(a => a.ArticleCategory).AsQueryable();
 
-    var posts = new List<Post>();
+        if (categoryId.HasValue)
+        {
+            articlesQuery = articlesQuery.Where(a => a.ArticleCategoryID == categoryId.Value);
+        }
 
-    posts.AddRange(article);
-    posts.AddRange(events);
+        var articles = await articlesQuery.ToListAsync();
 
-    posts = posts.OrderByDescending(item => item.createdAt).ToList();
-    
-    return View(posts);
-}
+        var events = await _context.Event.Include(e => e.Participants).ToListAsync();
+
+        var articleCategories = await _context.ArticleCategories.ToListAsync();
+
+        ViewData["ArticleCategories"] = articleCategories;
+        ViewData["SelectedCategoryId"] = categoryId;
+
+        var posts = new List<Post>();
+        posts.AddRange(articles);
+        posts.AddRange(events);
+
+        posts = posts.OrderByDescending(item => item.createdAt).ToList();
+
+        return View(posts);
+    }
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Studentko.Data;
 
@@ -11,9 +12,11 @@ using Studentko.Data;
 namespace Studentko.Migrations
 {
     [DbContext(typeof(StudentkoContext))]
-    partial class StudentkoContextModelSnapshot : ModelSnapshot
+    [Migration("20250108093800_AddArticleCategories")]
+    partial class AddArticleCategories
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -229,7 +232,6 @@ namespace Studentko.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ArticleCategoryID"));
 
                     b.Property<string>("category")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ArticleCategoryID");
@@ -366,13 +368,8 @@ namespace Studentko.Migrations
                 {
                     b.HasBaseType("Studentko.Models.Post");
 
-                    b.Property<int>("ArticleCategoryID")
-                        .HasColumnType("int");
-
                     b.Property<string>("subtitle")
                         .HasColumnType("nvarchar(max)");
-
-                    b.HasIndex("ArticleCategoryID");
 
                     b.ToTable("Article", (string)null);
                 });
@@ -482,19 +479,11 @@ namespace Studentko.Migrations
 
             modelBuilder.Entity("Studentko.Models.Article", b =>
                 {
-                    b.HasOne("Studentko.Models.ArticleCategory", "ArticleCategory")
-                        .WithMany("Articles")
-                        .HasForeignKey("ArticleCategoryID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Studentko.Models.Post", null)
                         .WithOne()
                         .HasForeignKey("Studentko.Models.Article", "PostID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("ArticleCategory");
                 });
 
             modelBuilder.Entity("Studentko.Models.Event", b =>
@@ -509,11 +498,6 @@ namespace Studentko.Migrations
             modelBuilder.Entity("Studentko.Models.ApplicationUser", b =>
                 {
                     b.Navigation("UserEvents");
-                });
-
-            modelBuilder.Entity("Studentko.Models.ArticleCategory", b =>
-                {
-                    b.Navigation("Articles");
                 });
 
             modelBuilder.Entity("Studentko.Models.Post", b =>
