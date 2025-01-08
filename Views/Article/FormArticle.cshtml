@@ -1,6 +1,7 @@
 @model Studentko.Models.Article
 @{
     ViewData["Title"] = "FormArticle";
+    var articleCategories = ViewData["ArticleCategories"] as IEnumerable<Studentko.Models.ArticleCategory>;
 }
 @using (Html.BeginForm(Model.PostID == 0 ? "PublishArticle" : "ArticleEdit", "Article", FormMethod.Post))
 {
@@ -17,6 +18,15 @@
 
             <label for="Content"> Vsebina: </label> <br>
             @Html.TextAreaFor(m => m.content, new { id = "textinput" }) <br>
+
+            <label for="ArticleCategoryID">Kategorija:</label>
+            @Html.DropDownListFor(
+                     m => m.ArticleCategoryID,
+                     new SelectList(ViewData["ArticleCategories"] as List<ArticleCategory>, "ArticleCategoryID", "category"),
+                     "Izberite kategorijo",
+                     new { @required = "required" }
+                     )
+            <br>
 
             <button type="submit"> @(Model.PostID == 0 ? "Objavi" : "Shrani spremembe") </button>
             <a asp-controller="Home" asp-action="Index"> Prekliči </a>

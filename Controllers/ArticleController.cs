@@ -20,6 +20,8 @@ public class ArticleController : Controller
     public IActionResult FormArticle()
     {
         var newPost = new Article { };
+        var categories = _context.ArticleCategories.ToList();
+        ViewData["ArticleCategories"] = categories;
         Console.WriteLine("Na članek forum");
         return View(newPost);
     }
@@ -41,8 +43,11 @@ public class ArticleController : Controller
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> PublishArticle(Article newArticle)
     {
+        Console.WriteLine("imhere");
+        Console.WriteLine(newArticle.ArticleCategoryID);
         if (ModelState.IsValid)
         {
+            Console.WriteLine("imhere2");
             newArticle.type = "Članek";
             newArticle.createdAt = DateTime.Now;
             _context.Article.Add(newArticle);
@@ -57,7 +62,7 @@ public class ArticleController : Controller
         {
             Console.WriteLine($"Key: {error.Key}, Errors: {string.Join(", ", error.Value.Errors.Select(e => e.ErrorMessage))}");
         }
-        return View("FormPost");
+        return View("FormArticle");
 
     }
     [HttpGet]
@@ -90,11 +95,13 @@ public class ArticleController : Controller
     public async Task<IActionResult> ArticleEdit(int id)
     {
         var post = await _context.Article.FindAsync(id);
+        var categories = _context.ArticleCategories.ToList();
+        ViewData["ArticleCategories"] = categories;
         if (post == null)
         {
             return NotFound();
         }
-
+        Console.WriteLine("post za utofilat" + post.ArticleCategoryID);
         return View("FormArticle", post);
     }
 
@@ -117,6 +124,7 @@ public class ArticleController : Controller
         post.title = updatedArticle.title;
         post.subtitle = updatedArticle.subtitle;
         post.content = updatedArticle.content;
+        post.ArticleCategoryID = updatedArticle.ArticleCategoryID;
 
         await _context.SaveChangesAsync();
 

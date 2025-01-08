@@ -1,7 +1,8 @@
 ﻿@model IEnumerable<Post>
-
 @{
     ViewData["Title"] = "Home Page";
+    var articleCategories = ViewData["ArticleCategories"] as IEnumerable<Studentko.Models.ArticleCategory>;
+    var selectedCategoryId = ViewData["SelectedCategoryId"] as int?;
 }
 
 <div class="text-center">
@@ -9,6 +10,22 @@
 
     <h2 style="text-decoration: underline;">Najnovejše objave</h2>
     <ul class="home-posts" style="list-style-type: none; margin: 0; padding: 0">
+
+        <form method="get" asp-action="Index" asp-controller="Home">
+            <label for="categoryFilter">Filtriraj članke:</label>
+            <select id="categoryFilter" name="categoryId" onchange="this.form.submit()">
+
+                <option value="" selected="@(selectedCategoryId == null)" )>Vse kategorije</option>
+
+                @foreach (var category in articleCategories)
+                {
+                    <option value="@category.ArticleCategoryID"
+                        selected="@(selectedCategoryId == category.ArticleCategoryID)">
+                        @category.category
+                    </option>
+                }
+            </select>
+        </form>
         @foreach (var post in Model)
         {
             <li>
