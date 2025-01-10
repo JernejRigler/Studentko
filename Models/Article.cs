@@ -10,6 +10,8 @@ public class Article : Post
 
     public int ArticleCategoryID { get; set; }
 
+    public bool IsTrending { get; set; }
+
     // Navigation Property
     public ArticleCategory? ArticleCategory { get; set; }
 

@@ -28,6 +28,9 @@
                      )
             <br>
 
+            <label for="IsTrending">Is Trending</label>
+            @Html.CheckBoxFor(m => m.IsTrending) <br>
+
             <button type="submit"> @(Model.PostID == 0 ? "Objavi" : "Shrani spremembe") </button>
             <a asp-controller="Home" asp-action="Index"> Prekliči </a>
         </div>
