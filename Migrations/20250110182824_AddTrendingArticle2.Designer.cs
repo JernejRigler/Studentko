@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Studentko.Data;
 
@@ -11,9 +12,11 @@ using Studentko.Data;
 namespace Studentko.Migrations
 {
     [DbContext(typeof(StudentkoContext))]
-    partial class StudentkoContextModelSnapshot : ModelSnapshot
+    [Migration("20250110182824_AddTrendingArticle2")]
+    partial class AddTrendingArticle2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -366,7 +369,7 @@ namespace Studentko.Migrations
                     b.Property<int>("ArticleCategoryID")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsTrending")
+                    b.Property<bool?>("isTrending")
                         .HasColumnType("bit");
 
                     b.Property<string>("subtitle")

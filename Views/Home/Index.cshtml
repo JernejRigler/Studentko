@@ -30,6 +30,13 @@
         {
             <li>
                 <h2>@post.type</h2>
+                @if (post is Article article3)
+                {
+                    @if (article3.IsTrending)
+                    {
+                        <span style="color: red;">🔥 Trending</span>
+                    }
+                }
                 <h3>@post.title</h3>
                 @if (post is Article article)
                 {

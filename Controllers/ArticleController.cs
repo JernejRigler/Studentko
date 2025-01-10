@@ -125,6 +125,7 @@ public class ArticleController : Controller
         post.subtitle = updatedArticle.subtitle;
         post.content = updatedArticle.content;
         post.ArticleCategoryID = updatedArticle.ArticleCategoryID;
+        post.IsTrending = updatedArticle.IsTrending;
 
         await _context.SaveChangesAsync();
 
