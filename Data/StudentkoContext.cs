@@ -17,8 +17,8 @@ public class StudentkoContext : IdentityDbContext<ApplicationUser>
     public DbSet<UserEvent> UserEvent { get; set; }
     public DbSet<Article> Article { get; set; }
     public DbSet<Comment> Comment { get; set; }
-    public DbSet<EventCategory> EventCategories { get; set; }
     public DbSet<ArticleCategory> ArticleCategories { get; set; }
+    public DbSet<Logging> Logs { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -28,7 +28,6 @@ public class StudentkoContext : IdentityDbContext<ApplicationUser>
         modelBuilder.Entity<Article>().ToTable("Article");
         modelBuilder.Entity<Event>().ToTable("Event");
         modelBuilder.Entity<Comment>().ToTable("Comment");
-        modelBuilder.Entity<EventCategory>().ToTable("EventCategory");
         modelBuilder.Entity<ArticleCategory>().ToTable("ArticleCategory");
 
         modelBuilder.Entity<ArticleCategory>().HasData(
@@ -49,6 +48,11 @@ public class StudentkoContext : IdentityDbContext<ApplicationUser>
         modelBuilder.Entity<UserEvent>().HasKey(ueKey => new { ueKey.UserID, ueKey.EventID });
         modelBuilder.Entity<UserEvent>().HasOne(ueKey => ueKey.User).WithMany(userKey => userKey.UserEvents).HasForeignKey(ueKey => ueKey.UserID);
         modelBuilder.Entity<UserEvent>().HasOne(ueKey => ueKey.Event).WithMany(eventKey => eventKey.Participants).HasForeignKey(ueKey => ueKey.EventID);
+
+        modelBuilder.Entity<Logging>()
+            .HasOne(l => l.User)
+            .WithMany(u => u.Logs)
+            .HasForeignKey(l => l.UserId);
 
     }
 

@@ -5,6 +5,7 @@ using Studentko.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Studentko.Services;
 
 namespace Studentko.Controllers;
 
@@ -12,10 +13,12 @@ public class EventController : Controller
 {
     private readonly StudentkoContext _context;
     private readonly UserManager<ApplicationUser> _userManager;
-    public EventController(StudentkoContext context, UserManager<ApplicationUser> userManager)
+    private readonly LoggingService _loggingService;
+    public EventController(StudentkoContext context, UserManager<ApplicationUser> userManager, LoggingService loggingService)
     {
         _context = context;
         _userManager = userManager;
+        _loggingService = loggingService;
     }
     [HttpGet]
     [Authorize(Roles = "Admin")]
@@ -61,6 +64,13 @@ public class EventController : Controller
             _context.Event.Add(newEvent);
 
             await _context.SaveChangesAsync();
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (userId != null)
+            {
+                await _loggingService.LogActionAsync(userId, "Dogodek dodan");
+            }
 
             Console.WriteLine("dogodek je bila uspešno objavlena");
             return RedirectToAction("Index", "Home");
@@ -111,6 +121,13 @@ public class EventController : Controller
             }
             _context.Event.Remove(currevent);
             await _context.SaveChangesAsync();
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (userId != null)
+            {
+                await _loggingService.LogActionAsync(userId, "Dogodek izbrisan");
+            }
         }
         else
         {
@@ -155,6 +172,13 @@ public class EventController : Controller
         post.EventDate = updatedEvent.EventDate;
 
         await _context.SaveChangesAsync();
+
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (userId != null)
+        {
+            await _loggingService.LogActionAsync(userId, "Dogodek spremenjen");
+        }
 
         return RedirectToAction("Index", "Home");
     }

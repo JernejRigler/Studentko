@@ -5,15 +5,20 @@ using Studentko.Data;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using Studentko.Services;
+using System.Security.Claims;
+
 
 namespace Studentko.Controllers;
 
 public class ArticleController : Controller
 {
     private readonly StudentkoContext _context;
-    public ArticleController(StudentkoContext context)
+    private readonly LoggingService _loggingService;
+    public ArticleController(StudentkoContext context, LoggingService loggingService)
     {
         _context = context;
+        _loggingService = loggingService;
     }
     [HttpGet]
     [Authorize(Roles = "Admin")]
@@ -54,6 +59,13 @@ public class ArticleController : Controller
 
             await _context.SaveChangesAsync();
 
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (userId != null)
+            {
+                await _loggingService.LogActionAsync(userId, "Članek dodan");
+            }
+
             Console.WriteLine("objava je bila uspešno objavlena");
             return RedirectToAction("Index", "Home");
         }
@@ -79,6 +91,13 @@ public class ArticleController : Controller
             }
             _context.Article.Remove(post);
             await _context.SaveChangesAsync();
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (userId != null)
+            {
+                await _loggingService.LogActionAsync(userId, "Članek izbrisan");
+            }
         }
         else
         {
@@ -128,6 +147,13 @@ public class ArticleController : Controller
         post.IsTrending = updatedArticle.IsTrending;
 
         await _context.SaveChangesAsync();
+
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (userId != null)
+        {
+            await _loggingService.LogActionAsync(userId, "Članek spremenjen");
+        }
 
         return RedirectToAction("Index", "Home");
     }

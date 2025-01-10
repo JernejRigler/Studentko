@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Studentko.Models;
+using Studentko.Services;
 
 namespace Studentko.Controllers;
 
@@ -8,10 +9,13 @@ public class UserController : Controller
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
-    public UserController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+
+    private readonly LoggingService _loggingService;
+    public UserController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, LoggingService loggingService)
     {
         _userManager = userManager;
         _signInManager = signInManager;
+        _loggingService = loggingService;
     }
     [HttpGet]
     public IActionResult Login()
@@ -51,6 +55,7 @@ public class UserController : Controller
         {
             await _userManager.AddToRoleAsync(user, "User");
             await _signInManager.SignInAsync(user, isPersistent: false);
+            await _loggingService.LogActionAsync(user.Id, "Register");
             Console.WriteLine("succesful register!");
             return RedirectToAction("Index", "Home");
         }
