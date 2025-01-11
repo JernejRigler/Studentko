@@ -25,7 +25,6 @@ public class UserController : Controller
     [HttpGet]
     public IActionResult Register()
     {
-        Console.WriteLine("registracija");
         return View();
     }
     [HttpPost]
@@ -56,12 +55,10 @@ public class UserController : Controller
             await _userManager.AddToRoleAsync(user, "User");
             await _signInManager.SignInAsync(user, isPersistent: false);
             await _loggingService.LogActionAsync(user.Id, "Register");
-            Console.WriteLine("succesful register!");
             return RedirectToAction("Index", "Home");
         }
         foreach (var error in result.Errors)
         {
-            Console.WriteLine("Neki je slo narobe");
             Console.WriteLine(error + ":" + error.Description);
             ModelState.AddModelError(string.Empty, error.Description);
 
@@ -72,7 +69,6 @@ public class UserController : Controller
     [HttpGet]
     public async Task<IActionResult> Logout()
     {
-        Console.WriteLine("halo");
         await _signInManager.SignOutAsync();
         return RedirectToAction("Index", "Home");
     }

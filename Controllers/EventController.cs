@@ -25,7 +25,6 @@ public class EventController : Controller
     public IActionResult FormEvent()
     {
         var newPost = new Event { };
-        Console.WriteLine("Na dogdoek forum");
         return View(newPost);
     }
     public async Task<IActionResult> EventDetails(int id)
@@ -40,7 +39,6 @@ public class EventController : Controller
 
         if (currevent == null)
         {
-            Console.WriteLine("Iskan dogodek ni bil najden");
             return RedirectToAction("Index", "Home");
         }
         var currentuser = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -72,7 +70,6 @@ public class EventController : Controller
                 await _loggingService.LogActionAsync(userId, "Dogodek dodan");
             }
 
-            Console.WriteLine("dogodek je bila uspešno objavlena");
             return RedirectToAction("Index", "Home");
         }
         //errors
@@ -92,7 +89,6 @@ public class EventController : Controller
         var curruser = await _userManager.GetUserAsync(User);
         if (currevent == null || curruser == null)
         {
-            Console.WriteLine("Iskani dogodek/user ni bil najden");
             return RedirectToAction("Index", "Home");
         }
         UserEvent newUserEvent = new UserEvent
@@ -103,7 +99,6 @@ public class EventController : Controller
         };
         _context.UserEvent.Add(newUserEvent);
         await _context.SaveChangesAsync();
-        Console.WriteLine("uspesno prijavlen na dogodek");
         return RedirectToAction("EventDetails", "Event", new { id = eventID });
     }
 

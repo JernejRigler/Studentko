@@ -1,8 +1,6 @@
 namespace Studentko.Models;
 using System;
 using System.Collections.Generic;
-using NuGet.Protocol.Plugins;
-using System.ComponentModel.DataAnnotations.Schema;
 
 public abstract class Post
 {

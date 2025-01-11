@@ -1,10 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
 using Studentko.Models;
 using Studentko.Data;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Studentko.Services;
 
 
@@ -20,6 +19,7 @@ public class CommentController : Controller
         _loggingService = loggingService;
     }
     [HttpPost]
+    [Authorize(Roles = "Admin,User")]
     public async Task<IActionResult> AddComment(Comment newComment)
     {
         if (ModelState.IsValid)

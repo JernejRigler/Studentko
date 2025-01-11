@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
 using Studentko.Models;
 using Studentko.Data;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Studentko.Services;
@@ -27,7 +25,6 @@ public class ArticleController : Controller
         var newPost = new Article { };
         var categories = _context.ArticleCategories.ToList();
         ViewData["ArticleCategories"] = categories;
-        Console.WriteLine("Na članek forum");
         return View(newPost);
     }
     public async Task<IActionResult> ArticleDetails(int id)
@@ -39,7 +36,6 @@ public class ArticleController : Controller
             .FirstOrDefaultAsync();
         if (article == null)
         {
-            Console.WriteLine("Iskana objava ni bila najdena");
             return RedirectToAction("Index", "Home");
         }
         return View(article);
@@ -48,11 +44,8 @@ public class ArticleController : Controller
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> PublishArticle(Article newArticle)
     {
-        Console.WriteLine("imhere");
-        Console.WriteLine(newArticle.ArticleCategoryID);
         if (ModelState.IsValid)
         {
-            Console.WriteLine("imhere2");
             newArticle.type = "Članek";
             newArticle.createdAt = DateTime.Now;
             _context.Article.Add(newArticle);
@@ -66,7 +59,6 @@ public class ArticleController : Controller
                 await _loggingService.LogActionAsync(userId, "Članek dodan");
             }
 
-            Console.WriteLine("objava je bila uspešno objavlena");
             return RedirectToAction("Index", "Home");
         }
         //errors
@@ -120,7 +112,6 @@ public class ArticleController : Controller
         {
             return NotFound();
         }
-        Console.WriteLine("post za utofilat" + post.ArticleCategoryID);
         return View("FormArticle", post);
     }
 
@@ -131,7 +122,6 @@ public class ArticleController : Controller
         if (!ModelState.IsValid)
         {
             // Reuse the "CreatePost" view to show validation errors
-            Console.WriteLine("invalid");
             return View("FormArticle", updatedArticle);
         }
         var post = await _context.Article.FindAsync(updatedArticle.PostID);

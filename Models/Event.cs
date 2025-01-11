@@ -1,12 +1,11 @@
 namespace Studentko.Models;
 using System;
 using System.Collections.Generic;
-using NuGet.Protocol.Plugins;
-using System.ComponentModel.DataAnnotations.Schema; 
+using System.ComponentModel.DataAnnotations.Schema;
 
 public class Event : Post
 {
-    
+
     public int? ParticipantLimit { get; set; }
     public DateTime? EventDate { get; set; } //datum za ko se bo dogodek začel
 

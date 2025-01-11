@@ -48,8 +48,6 @@
 
 <script>
     const eventsList = @Html.Raw(Json.Serialize(ViewData["Data"]));
-    console.log(eventsList);
-    console.log("madafaka");
 
     const months =
         [
@@ -138,7 +136,6 @@
     displayCalendar();
 
     next.addEventListener("click", (event) => {
-        console.log("naslednji mesec");
         currmonth += 1;
         if (currmonth > 11) {
             currmonth = 0;
@@ -147,7 +144,6 @@
         displayCalendar();
     });
     prev.addEventListener("click", (event) => {
-        console.log("prejšni mesec");
         currmonth -= 1;
         if (currmonth < 0) {
             currmonth = 11;

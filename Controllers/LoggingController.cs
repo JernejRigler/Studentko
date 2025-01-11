@@ -1,6 +1,5 @@
 using Studentko.Data;
 using Studentko.Services;
-using Studentko.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
