@@ -16,9 +16,4 @@ public class Comment
     [ForeignKey("ApplicationUser")]
     public string? UserID { get; set; }
     public ApplicationUser? user { get; set; }
-
-
-
-
-
 }

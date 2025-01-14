@@ -6,18 +6,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 public class Logging
 {
     [Key]
-    public int LoggingId { get; set; } // Primary Key
+    public int LoggingId { get; set; }
 
     [Required]
-    [ForeignKey("User")] // Foreign key to the User table
-    public string UserId { get; set; } // Assuming you're using Identity with string UserId
+    [ForeignKey("User")]
+    public string UserId { get; set; }
 
-    public virtual ApplicationUser User { get; set; } // Navigation property
+    public virtual ApplicationUser User { get; set; }
 
     [Required]
     [StringLength(100)]
-    public string Action { get; set; } // Description of the action (e.g., "Added Post")
+    public string Action { get; set; }
 
     [Required]
-    public DateTime ActionTimestamp { get; set; } // Timestamp of the action
+    public DateTime ActionTimestamp { get; set; }
 }

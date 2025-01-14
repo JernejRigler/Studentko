@@ -22,12 +22,9 @@
             <label for="ParticipantLimit"> Število mest: </label> <br>
             @Html.TextBoxFor(m => m.ParticipantLimit, new { type = "number", id = "eventLimit" }) <br>
 
-            <label for="PostAttachment"> Priloži datoteko: </label>
-            <input type="file" id="postFile" name="PostAttachment" /> <br>
-
             <label for="EventDate"> Začetek dogodka: </label>
-            <input type="date" id="startDate" name="EventDate">
-            <button type="submit"> @(Model.PostID == 0 ? "Objavi" : "Shrani spremembe") </button>
+            <input type="date" id="startDate" name="EventDate"> <br>
+            <button type="submit" class="btn btn-primary"> @(Model.PostID == 0 ? "Objavi" : "Shrani spremembe") </button>
             <a asp-controller="Home" asp-action="Index"> Prekliči </a>
         </div>
     </div>

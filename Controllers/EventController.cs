@@ -49,14 +49,10 @@ public class EventController : Controller
     }
     [HttpPost]
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> PublishEvent(Event newEvent, IFormFile PostAttachment)
+    public async Task<IActionResult> PublishEvent(Event newEvent)
     {
         if (ModelState.IsValid)
         {
-            if (PostAttachment != null)
-            {
-                //nek file hanadling
-            }
             newEvent.type = "Dogodek";
             newEvent.createdAt = DateTime.Now;
             _context.Event.Add(newEvent);
@@ -81,6 +77,7 @@ public class EventController : Controller
 
     }
     [HttpPost]
+    [Authorize(Roles = "Admin,User")]
     public async Task<IActionResult> JoinEvent(int eventID)
     {
         var currevent = await _context.Event

@@ -8,7 +8,6 @@ public class Article : Post
 
     public bool IsTrending { get; set; }
 
-    // Navigation Property
     public ArticleCategory? ArticleCategory { get; set; }
 
 }

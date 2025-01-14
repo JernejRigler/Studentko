@@ -33,16 +33,17 @@
 <div class="dsahboard-container">
     <h1>Nadzorna plošča </h1>
     <h2>Prihajoči dogodki: </h2>
-        <div class="dashboard-content">
-            <div class="dashboard-event">
-            @foreach(var userev in Model){
-                <span>@(userev.EventDate.HasValue ? userev.EventDate.Value.ToString("dddd, MMMM dd, yyyy") : "Neznani datum")</span> <br>
-                <span> &#x1F550; </span>
-                <span> @userev.title </span>
+    <div class="dashboard-content">
+        <div class="dashboard-event">
+            @foreach (var userev in Model)
+            {
+                <span id="dashboard-eventdate"> &#x1F550; @(userev.EventDate.HasValue ?
+                userev.EventDate.Value.ToString("dddd, MMMM dd, yyyy") : "Neznani datum")</span> <br>
+                <span id="dashboard-eventtitle"> @userev.title </span>
                 <br>
             }
-            </div>
         </div>
+    </div>
 
 </div>
 
@@ -113,7 +114,7 @@
         for (let i = 1; i <= daysinmonth; i++) {
             let event = "";
             for (let j = 0; j < eventsList.length; j++) {
-                
+
                 let eventDate = null;
                 if (eventsList[j].eventDate) {
                     eventDate = eventsList[j].eventDate = new Date(eventsList[j].eventDate);

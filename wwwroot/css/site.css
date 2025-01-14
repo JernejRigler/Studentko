@@ -23,6 +23,7 @@ html {
 
 body {
   margin-bottom: 60px;
+  font-family: 'Times New Roman', sans-serif;
 }
 
 li.right-nav-item {
@@ -84,7 +85,7 @@ li.right-nav-item+li.right-nav-item {
 
 .calendar-container {
   background: #fff;
-  width: 450px;
+  width: 650px;
   border-radius: 10px;
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
 }
@@ -102,8 +103,8 @@ header .calendar-nav {
 
 header .calendar-nav span {
   height: 38px;
-  width: 89px;
-  margin: 0 10px;
+  width: 85px;
+  margin: 0 15px;
   cursor: pointer;
   text-align: center;
   line-height: 38px;
@@ -143,13 +144,13 @@ header #calendar-current-date {
 
 .calendar-body li {
   width: calc(100% / 7);
-  font-size: 1.07rem;
+  font-size: 1.1rem;
   color: #414141;
 }
 
 .calendar-body #calendar-weekdays li {
   cursor: default;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .calendar-body #calendar-dates li {
@@ -165,6 +166,10 @@ header #calendar-current-date {
 
 #calendar-dates li.active {
   color: #fff;
+}
+
+#calendar-dates li.active::before {
+  background: #6332c5;
 }
 
 #calendar-dates li::before {
@@ -194,10 +199,142 @@ header #calendar-current-date {
   margin-top: 5px;
 }
 
+.navbar-brand{
+  font-weight: bold;
+}
+
+.dashboard-container {
+  background: #f9f9f9; 
+  border-radius: 10px; 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); 
+  padding: 20px; 
+  margin-top: 20px; 
+  width: 100%; 
+  max-width: 600px; 
+  margin-left: auto; 
+  margin-right: auto;
+}
+
+.dashboard-container h1,
+.dashboard-container h2 {
+  color: #333;
+  text-align: center; 
+  margin-bottom: 15px; 
+  font-family: 'Times New Roman', sans-serif;
+}
+
 .postcontent {
   word-wrap: break-word;
 }
 
 .home-posts li {
   border: 1px solid black;
+}
+.dashboard-container h1 {
+  font-size: 2rem; 
+  font-weight: bold;
+}
+
+.dashboard-container h2 {
+  font-size: 1.5rem; 
+}
+
+
+.dashboard-content {
+  display: flex;
+  flex-direction: column; 
+  gap: 15px; 
+}
+
+.dashboard-event {
+  background: #fff; 
+  border: 1px solid #ddd;
+  border-radius: 8px; 
+  padding: 15px; 
+  display: flex;
+  flex-direction: column; 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+}
+
+.dashboard-event span {
+  font-size: 1rem;
+  color: #555; 
+  margin-bottom: 5px; 
+  font-family: 'Times New Roman', sans-serif;
+}
+
+#dashboard-eventdate{
+  font-weight: bold;
+  color:#4da6ff;
+}
+#dashboard-eventtitle{
+  color:   #ff0000;
+}
+
+.nav-link {
+  font-size: 1.1rem;
+  font-weight: bold; 
+  color: #0078FF; 
+  text-decoration: none; 
+}
+
+.nav-link:hover {
+  color:  #FF3B3B; 
+}
+
+.nav-link:active {
+  color:  #FF3B3B;
+}
+
+#postlist {
+  list-style-type: none;
+  padding: 0; 
+  margin: 0 auto; 
+  max-width: 800px;
+}
+
+#postlist-item {
+  background: #f9f9f9; 
+  border: 1px solid #ddd; 
+  border-radius: 8px; 
+  margin-bottom: 20px; 
+  padding: 20px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#postlist-item:hover {
+  transform: translateY(-5px); 
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.post-title {
+  font-size: 1.5rem;
+  font-weight: bold; 
+  color: #333; 
+  margin-bottom: 10px; 
+}
+
+.post-subtitle {
+  font-size: 1.2rem; 
+  font-weight: 500; 
+  color: #555; 
+  margin-bottom: 10px;
+}
+
+.post-date {
+  display: block;
+  color: #999; 
+  font-size: 0.9rem; 
+  margin-bottom: 15px; 
+}
+
+#event-limit {
+  display: block; 
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+#studentko-navbar{
+  background-color: red;
 }

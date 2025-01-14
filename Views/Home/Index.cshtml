@@ -7,10 +7,8 @@
 
 <div class="text-center">
     <h1 class="display-4">Pozdravljen na strani sistema Studentko!</h1>
-
     <h2 style="text-decoration: underline;">Najnovejše objave</h2>
-    <ul class="home-posts" style="list-style-type: none; margin: 0; padding: 0">
-
+    <ul id="postlist">
         <form method="get" asp-action="Index" asp-controller="Home">
             <label for="categoryFilter">Filtriraj članke:</label>
             <select id="categoryFilter" name="categoryId" onchange="this.form.submit()">
@@ -28,7 +26,7 @@
         </form>
         @foreach (var post in Model)
         {
-            <li>
+            <li id="postlist-item">
                 <h2>@post.type</h2>
                 @if (post is Article article3)
                 {
@@ -37,12 +35,12 @@
                         <span style="color: red;">🔥 Trending</span>
                     }
                 }
-                <h3>@post.title</h3>
+                <h3 class="post-title">@post.title</h3>
                 @if (post is Article article)
                 {
                     <h4> @article.subtitle </h4>
                 }
-                <small>Objavljeno: @post.createdAt?.ToString("MM/dd/yyyy")</small>
+                <small class="post-date">Objavleno: @post.createdAt?.ToString("MM/dd/yyyy")</small>
 
                 <p class="postcontent">@post.content</p>
                 @if (post is Article article2)
@@ -63,7 +61,7 @@
                 else if (post is Event evPost)
                 {
                     var registered = evPost.ParticipantLimit - evPost.Participants.Count;
-                    <small> Število mest: @registered </small>
+                    <small id="event-limit"> Število mest: @registered </small>
                     <a class="nav-link" asp-area="" asp-controller="Event" asp-action="EventDetails"
                         asp-route-id="@post.PostID"> Oglej si dogodek </a>
                     @if (User.IsInRole("Admin"))
@@ -77,7 +75,6 @@
                         </a>
                     }
                 }
-
             </li>
         }
     </ul>

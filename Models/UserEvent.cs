@@ -8,8 +8,4 @@ public class UserEvent
     public Event Event { get; set; }
 
     public DateTime JoineddAt { get; set; }
-
-
-
-
 }
