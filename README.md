@@ -8,14 +8,19 @@
 Glavna naloga sistema Studentko je obveščanje študentov glede dogodkov in diskusije aktualnih tem, ki so povezani z fakulteto/univerzo.
 Študenti imajo možnost kreirati nov račun in se prijaviti v sistem. Ko so prijavljeni lahko pregledujejo novice in jih komentirajo ter se prijavljajo na dogodke. V posebnem zavihku imajo koledar, v katerem vidijo prihajajoče dogodke. Admin-i (uredniki) imajo možnost dodajati, spreminjati in brisati dogodke in članke, prav tako imajo temu primeren zavihek za logging, kjer se izpiše kdo je naredil katero akcijo v sistemu.
 
+Članek card:
 ![clanekCard](./ReadmeImages/clanekCard.PNG)
-<br>
+
+Navbar:
 ![navbar](./ReadmeImages/navbar.PNG)
-<br>
+
+Dodaj dogodek:
 ![dodajDogodek](./ReadmeImages/dodajDogodek.PNG)
-<br>
+
+Koledar:
 ![calendar](./ReadmeImages/calendar.PNG)
-<br>
+
+Logging:
 ![logging](./ReadmeImages/logging.PNG)
 
 Markove(63230226) naloge: večino frontend kode, styling, funkcionalnost koledarja in dogodkov, komentarje, dodajanje dogodkov in člankov.
