@@ -1,18 +1,23 @@
-Naslov seminarske naloge: Studentko
-Člana ekipe:
-63230226 Mark Novak
+<p align="center">
+  **Studentko**
+</p>
+Člana ekipe: 
+63230226 Mark Novak 
 63230280 Jernej Rigler
 
-Namen informacijskega sistema Studentko je obveščanje študentov o člankih in dogodkih, ki jih določa študentska organizacija. Sistem bi študentom omogočal brskanje po teh objavah, ki bi jih tvorili naprednejši uporabniki - pisci/uredniki člankov in dogodkov, ki bi imeli vse CRUD operacije nad njimi. Tako bo sistem bil razdeljen na več vlog. Študenti bi imeli opcijo obveščanja, torej da na neko storitev (e-mail ali obvestilo na telefonu) dobijo najnovejše informacije.
+Glavna naloga sistema Studentko je obveščanje študentov glede dogodkov in diskusije aktualnih tem, ki so povezani z fakulteto/univerzo.
+Študenti imajo možnost kreirati nov račun in se prijaviti v sistem. Ko so prijavljeni lahko pregledujejo novice in jih komentirajo ter se prijavljajo na dogodke. V posebnem zavihku imajo koledar, v katerem vidijo prihajajoče dogodke. Admin-i (uredniki) imajo možnost dodajati, spreminjati in brisati dogodke in članke, prav tako imajo temu primeren zavihek za logging, kjer se izpiše kdo je naredil katero akcijo v sistemu.
 
-Dogodki:
+![clanekCard](./ReadmeImages/clanekCard.PNG)
+![navbar](./ReadmeImages/navbar.PNG)
+![dodajDogodek](./ReadmeImages/dodajDogodek.PNG)
+![calendar](./ReadmeImages/calendar.PNG)
+![logging](./ReadmeImages/logging.PNG)
 
-študenti se lahko prijavljajo na dogodke, z možnostjo omejitve mest na posameznih dogodkih. Prav tako bi imeli dostop do koledarja, kjer lahko v priročnem zapisu vidijo in filtrirajo prihajajoče dogodke. Po možnosti še funkcija za prenos poročila o dogodku v obliki PDF (na primer), da lahko študentska organizacija ve, kdo vse se bo dogodka udeležil.
+Markove(63230226) naloge: večino frontend kode, styling, funkcionalnost koledarja in dogodkov, komentarje, dodajanje dogodkov in člankov.
 
-Članki:
+Jernejeve(63230280) naloge: večina backend kode, avtentikacija, avtorizacija, logging, brisanje in spreminjanje dogodkov in člankov, postavitev na Azure.
 
-kategorizirani, z možnostjo filtriranja glede na interese študenta. Možnost označevanja popularnih in trending člankov. Vsak članek bi lahko uporabniki pokomentirali, ocenili. Tako bi imeli admin-i možnost izboljševanja njihovih člankov, glede na odziv bralcev. Po možnosti še dodana analitika za članke.
+![ER](./ReadmeImages/ER.PNG)
 
-Napredni uporabniki bi imeli možnost nad pregledom vseh CRUD operacij, ki so se izvedle (logging).
-
-Predvidene entitete: uporabnik, dogodek, članek, prijave na dogodke, komentar, kategorije člankov/dogodkov, obvestilo
+Post je abstraktna tabela, katerih elemente podedujeta tako Event, kot Article (1-1 povezava). Vsak ArticleCategory ima lahko več Article-ov, vsak Article ima lahko pa samo en ArticleCategory (1-n povezava). Vsak Post ima lahko več Comment-ov, en Comment pa se navezuje samo na en Post (1-n povezava). User lahko objavi več Comment, vsak Comment pa se navezuje samo na enega User-ja (1-n povezava). User se lahko prav tako prijavi na več Event-ov, vsak Event pa ima lahko več User-jev, zato imamo vmesno tabelo UserEvent (n-m povezava). Vsak User lahko generira več Log-ov, vsak Log pa se navezuje na samo enega User-ja (1-n povezava).
